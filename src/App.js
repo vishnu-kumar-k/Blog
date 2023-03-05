@@ -12,6 +12,8 @@ import { Write } from "./pages/Write";
 import {Navbar} from "./components/Navbar"
 import {Footer} from "./components/Footer";
 import "./style.scss";
+import { RecoilRoot } from "recoil";
+import {Container} from 'react-bootstrap';
 const Layout=()=>{
   return(<>
   <Navbar/>
@@ -52,8 +54,11 @@ const router=createBrowserRouter([
 function App() {
   return (
     <div className="app">
+      
       <div className="container">
+        <RecoilRoot>
       <RouterProvider router={router}/>
+      </RecoilRoot>
       </div>
     </div>
   );
