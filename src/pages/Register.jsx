@@ -1,9 +1,13 @@
 import axios from "../axios/Axios";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { Auth } from "../Atom/Atom";
 import { useNavigate } from "react-router-dom";
+import "../stylesheet/Register.scss"
+import {Col, Container, Row} from "react-bootstrap"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -22,9 +26,23 @@ export const Register = () => {
       .then((result) => {
         console.log(result.data)
         if (result.data.status) {
-          navigate("/");
+          toast.success(`Signed as ${name}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            closeOnClick: false,
+            pauseOnHover: true,
+          });
+          setTimeout(()=>
+          {
+            navigate("/");
+          },5000)
+          
+
         } else {
-          console.log("Invalid");
+          toast.error(result.data.msg,{
+            position: toast.POSITION.TOP_RIGHT,
+            closeOnClick: true,
+            pauseOnHover: true,
+          })
         }
       })
       .catch((err) => {
@@ -32,12 +50,19 @@ export const Register = () => {
       });
   };
 
+  
+
   return (
+    <Container>
+      <Row><Col lg={3} xs={0}></Col>
+      <Col lg={6} xs={12}>
     <div className="auth">
+    <h1>Signup</h1>
       <form onSubmit={HandleSumbit}>
-        <h1>Signup</h1>
+        
         <input
           required
+          className="form-control"
           type="text"
           placeholder="username"
           value={name}
@@ -45,25 +70,31 @@ export const Register = () => {
         />
         <input
           required
+          className="form-control"
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+        className="form-control"
           required
           type="password"
           placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        <input type="submit" />
-        <p>This is error!!</p>
+        <button type="submit" class="btn btn-secondary">submit</button>
         <span>
-          Have an account?<Link to="/Login">Register</Link>
+          Have an account? <Link to="/Login">Login</Link>
         </span>
       </form>
+      <ToastContainer />
+      
     </div>
+    </Col>
+    <Col md={6} xs={0}></Col>
+    </Row>
+    </Container>
   );
 };

@@ -11,9 +11,10 @@ import { Login } from "./pages/Login";
 import { Write } from "./pages/Write";
 import {Navbar} from "./components/Navbar"
 import {Footer} from "./components/Footer";
-import "./style.scss";
 import { RecoilRoot } from "recoil";
 import {Container} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const Layout=()=>{
   return(<>
   <Navbar/>

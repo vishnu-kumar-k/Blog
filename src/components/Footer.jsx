@@ -1,12 +1,19 @@
 import React from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
 import logo from "../images/logo.png"
 export const Footer = () => {
   return (
-    <footer>
-      
-      <img src={logo} alt="" />
+      <Container>
+        <Row>
+          <Col xs={3}>
+      <img src={logo} alt="" className='footer'/>
+      </Col>
+      <Col xs={3}></Col>
+      <Col xs={3}>
       <span > Made with React</span>
-    </footer>
+      </Col>
+      </Row>
+      </Container>
   
   )
 }

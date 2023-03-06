@@ -4,9 +4,13 @@ import axios from "../axios/Axios";
 import { useRecoilState } from "recoil";
 import { Auth } from "../Atom/Atom";
 import { useNavigate } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const Login = () => {
   const navigate=useNavigate();
-  const [email, setEmail] = useRecoilState(Auth);
+  const [email, setEmail] = useState();
+  const[name,setName]=useRecoilState(Auth);
   const [password, setPassword] = useState();
   const HandleSumbit=async(e)=>
   {
@@ -19,21 +23,43 @@ export const Login = () => {
     {
       if(result.data.status)
       {
-        navigate("/");
+        setName(result.data.name);
+        toast.success(`Signed as ${name}`
+        , {
+            position: toast.POSITION.TOP_RIGHT,
+            closeOnClick: false,
+            pauseOnHover: true,
+          });
+        setTimeout(()=>
+        {
+          navigate("/");
+        },5000
+        )
+        
       }
       else
       {
-        console.log(result.data.msg)
+        toast.warning(result.data.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+          closeOnClick: false,
+          pauseOnHover: true,
+        });
       }
     }).catch((err)=>{
       console.log(err)
     })
   }
   return (
+    <Container>
+      <Row>
+        <Col xs={0} md={3}></Col>
+        <Col xs={12} md={6}>
     <div className="auth">
+      <h1>Login</h1>
       <form onSubmit={HandleSumbit}>
-        <h1>Login</h1>
+        
         <input
+        className="form-control"
           required
           type="text"
           placeholder="username"
@@ -44,13 +70,18 @@ export const Login = () => {
         />
         <input required type="password" placeholder="password" 
         value={password}
+        className="form-control"
         onChange={(e)=>{setPassword(e.target.value)}}
           />
-        <input type="submit"/>
+        <button type="submit" class="btn btn-secondary">submit</button>
         <span>
-          Don't you have an account?<Link to="/Register">Register</Link>
+          Don't you have an account? <Link to="/Register">Register</Link>
         </span>
       </form>
-    </div>
+      <ToastContainer/>
+    </div></Col>
+    <Col xs={0} md={3}></Col>
+    </Row>
+    </Container>
   );
 };
