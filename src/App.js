@@ -9,15 +9,19 @@ import { Single } from "./pages/Single";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Write } from "./pages/Write";
-import {Navbar} from "./components/Navbar"
+import {Navbars} from "./components/Navbar"
 import {Footer} from "./components/Footer";
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilState } from "recoil";
 import {Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./stylesheet/App.scss"
+import { useEffect } from "react";
+import { Auth } from "./Atom/Atom";
 
+var t=window.innerWidth;
 const Layout=()=>{
   return(<>
-  <Navbar/>
+  <Navbars/>
   <Outlet/>
   <Footer/>
   </>);
@@ -29,7 +33,7 @@ const router=createBrowserRouter([
     element:<Layout />,
     children:[
       {
-        path:"/",
+        path:"",
         element:<Home />
       },
       {

@@ -1,40 +1,123 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import Logo from '../images/logo.png';
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { Link, useNavigate } from "react-router-dom";
+import "../stylesheet/Navbar.scss";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Auth } from "../Atom/Atom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import axios from "../axios/Axios";
 
+//Handling Navbars
+export const Navbars = () => {
+  const [user, setUser] = useRecoilState(Auth);
+  useEffect(() => {
+    var t = localStorage.getItem("name");
+    if (t !== null && t !== undefined) {
+      setUser({ name: t, status: true });
+    }
+  }, []);
+  console.log(user);
+  const navigate = useNavigate();
 
+  //Handling Logout Function
+  const handleLogin = async(e) => {
+    e.preventDefault();
+    if (user.status) {
+      await axios
+        .get("/logout", { withCredentials: true })
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err));
+     await localStorage.removeItem("name");
+     await  setUser({ name: null, status: false });
+    } else {
+      navigate("/login");
+    }
+  };
 
-export const Navbar = () => {
+  const handleWrite = (e) => {
+    e.preventDefault();
+    console.log("what");
+    if (user.status) {
+      navigate("/write");
+    } else {
+      toast.warning("Please Login to Post a Blog", {
+        position: toast.POSITION.TOP_RIGHT,
+        closeOnClick: false,
+        pauseOnHover: true,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    }
+  };
+
   return (
-    <div className="navBar">
-      <div className="container">
-        <div className="logo">
-        <img src={Logo}  alt=""/>
-        </div>
-        <div className='links'>
-          <Link className='link' to="/?cat=art">
-            <h4>Art</h4>
+    <Navbar bg="light" expand="lg">
+      <Container fluid>
+        <Link className="head" to="/">
+          Blog
+        </Link>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="justify-content-end flex-grow-1 pe-3"
+            style={{ maxHeight: "200px" }}
+            navbarScroll
+          >
+            <Navbar.Brand>
+              {" "}
+              <Link className="link-style-write" onClick={handleWrite}>
+                Write
+              </Link>
+            </Navbar.Brand>
+            <Navbar.Brand>
+              <Link className="link-style" to="/Art">
+                Art
+              </Link>
+            </Navbar.Brand>
+            <Navbar.Brand>
+              <Link className="link-style" to="/design">
+                Design
+              </Link>
+            </Navbar.Brand>
+            <Navbar.Brand>
+              {" "}
+              <Link className="link-style" to="/Cinema">
+                Cinema
+              </Link>
+            </Navbar.Brand>
+            <Navbar.Brand>
+              {" "}
+              <Link className="link-style" to="/food">
+                Food{" "}
+              </Link>
+            </Navbar.Brand>
+          </Nav>
+          {user.status ? (
+            <>
+              <Navbar.Brand>
+                <Link className="link-style"> {user.name} </Link>
+              </Navbar.Brand>
+              <br />
+            </>
+          ) : (
+            <></>
+          )}
+          <Navbar.Brand>
+            <Link className="link-style" onClick={handleLogin}>
+              {" "}
+              {user.status ? "Logout" : "Login"}{" "}
             </Link>
-            <Link className='link' to="/?cat=science">
-            <h4>science</h4>
-            </Link>
-            <Link className='link' to="/?cat=cinema">
-            <h4>cinema</h4>
-            </Link>
-            <Link className='link' to="/?cat=design">
-            <h4>design</h4>
-            </Link>
-            <Link className='link' to="/?cat=food">
-            <h4>food</h4>
-            </Link>
-            <span>Vishnu</span>
-            <span>Logout</span>
-            <span className='write'>
-              <Link to='/write'>Write</Link>
-            </span>
+          </Navbar.Brand>
 
-        </div>
-      </div>
-    </div>
-  )
-}
+          <ToastContainer />
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+};
