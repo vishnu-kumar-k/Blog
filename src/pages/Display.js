@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { post } from "../Atom/Atom";
+import "../stylesheet/Display.scss"
+import logo from "../images/logo.png";
 const Display = ({ ind, img, id, tittle, desc, n }) => {
   const navigate=useNavigate();
   const[p,setP]=useRecoilState(post);
@@ -15,11 +17,11 @@ const Display = ({ ind, img, id, tittle, desc, n }) => {
 
 
  }
-  return (
+  return (<div className="Display">
     <Row key={ind}>
       <Col md={4} sm={12} xs={12}>
         <div className="img">
-          <img src={img} />
+          <img src={logo} />
           <p>posted on:21/12/2002</p>
           <p>Posted by Vishnu</p>
         </div>
@@ -30,6 +32,7 @@ const Display = ({ ind, img, id, tittle, desc, n }) => {
         <p onClick={handle}>Readmore</p>
       </Col>
     </Row>
+    </div>
   );
 };
 export default Display;

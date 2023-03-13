@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
+import { useRecoilState } from "recoil";
+import { Posts } from "../Atom/Atom";
 import axios from "../axios/Axios";
 import "../stylesheet/Home.scss";
 import Display from "./Display";
 export const Home = () => {
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useRecoilState(Posts);
   useEffect(() => {
     
     axios

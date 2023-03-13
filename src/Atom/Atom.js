@@ -11,3 +11,8 @@ export const post=atom({
     key:"post",
     default:1
 })
+
+export const Posts=atom({
+    key:"posts",
+    default:[]
+})

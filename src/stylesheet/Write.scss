@@ -1,0 +1,22 @@
+.write-container{
+    margin-top: 3em;
+    .menu{
+        display: flex;
+        flex-direction: column;
+        gap:1em;
+    }
+    .content{
+        display: flex;
+        flex-direction: column;
+        gap:1em;
+        .editorContainer{
+            width: 100%;
+            height: 300px;
+            overflow: scroll;
+            .editor{
+                height: 100%;;
+            }
+        }
+    }
+    
+}
