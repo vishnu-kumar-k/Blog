@@ -27,9 +27,10 @@ export const Register = () => {
         { withCredentials: true }
       )
       .then((result) => {
-        localStorage.setItem("name", result.data.name);
+        
         if (result.data.status) {
-          setUser({ status: true });
+          setUser({ status: true,name:user.name });
+          
           toast.success(`Signed as ${user.name}`, {
             position: toast.POSITION.TOP_RIGHT,
             closeOnClick: false,

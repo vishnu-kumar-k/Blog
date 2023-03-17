@@ -5,8 +5,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import "../stylesheet/Navbar.scss";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { Auth } from "../Atom/Atom";
+import { useRecoilState } from "recoil";
+import { Auth, categoryPostState } from "../Atom/Atom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
@@ -15,30 +15,49 @@ import axios from "../axios/Axios";
 //Handling Navbars
 export const Navbars = () => {
   const [user, setUser] = useRecoilState(Auth);
+  const [categoryPost, setCategoryPost] = useRecoilState(categoryPostState);
   useEffect(() => {
-    var t = localStorage.getItem("name");
-    if (t !== null && t !== undefined) {
-      setUser({ name: t, status: true });
+    if (!user.status) {
+      axios.get("/verify", { withCredentials: true }).then(async (res) => {
+        if (res.data.status) {
+          await setUser({ name: res.data.name, status: true });
+        }
+      });
     }
   }, []);
-  console.log(user);
   const navigate = useNavigate();
 
   //Handling Logout Function
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (user.status) {
       await axios
         .get("/logout", { withCredentials: true })
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
-     await localStorage.removeItem("name");
-     await  setUser({ name: null, status: false });
+      await localStorage.removeItem("name");
+      await setUser({ name: null, status: false, id: null });
     } else {
       navigate("/login");
     }
   };
-
+  console.log(user);
+  const myPost = (e) => {
+    e.preventDefault();
+    console.log("Mypost");
+    if (user.status) {
+      navigate("/mypost");
+    } else {
+      toast.warning("Please Login to View Your Post", {
+        position: toast.POSITION.TOP_RIGHT,
+        closeOnClick: false,
+        pauseOnHover: true,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    }
+  };
   const handleWrite = (e) => {
     e.preventDefault();
     console.log("what");
@@ -66,7 +85,7 @@ export const Navbars = () => {
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="justify-content-end flex-grow-1 pe-3"
-            style={{ maxHeight: "200px" }}
+            style={{ maxHeight: "270px" }}
             navbarScroll
           >
             <Navbar.Brand>
@@ -76,25 +95,55 @@ export const Navbars = () => {
               </Link>
             </Navbar.Brand>
             <Navbar.Brand>
-              <Link className="link-style" to="/Art">
+              <Link
+                className="link-style"
+                value="art"
+                onClick={() => {
+                  setCategoryPost({status:true,category:"art"});
+                }}
+              >
                 Art
               </Link>
             </Navbar.Brand>
             <Navbar.Brand>
-              <Link className="link-style" to="/design">
-                Design
+              <Link
+                className="link-style"
+                value="tech"
+                onClick={() => {
+                  setCategoryPost({status:true,category:"tech"});
+                }}
+              >
+                Tech
               </Link>
             </Navbar.Brand>
             <Navbar.Brand>
               {" "}
-              <Link className="link-style" to="/Cinema">
+              <Link
+                className="link-style"
+                value="cinema"
+                onClick={() => {
+                  setCategoryPost({status:true,category:"cinema"});
+                }}
+              >
                 Cinema
               </Link>
             </Navbar.Brand>
             <Navbar.Brand>
               {" "}
-              <Link className="link-style" to="/food">
+              <Link
+                className="link-style"
+                value="food"
+                onClick={() => {
+                  setCategoryPost({status:true,category:"food"});
+                }}
+              >
                 Food{" "}
+              </Link>
+            </Navbar.Brand>
+            <Navbar.Brand>
+              {" "}
+              <Link className="link-style" onClick={myPost}>
+                Mypost{" "}
               </Link>
             </Navbar.Brand>
           </Nav>

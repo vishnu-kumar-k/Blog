@@ -25,16 +25,21 @@ export const Login = () => {
       )
       .then(async (result) => {
         if (result.data.status) {
-          localStorage.setItem("name", result.data.name);
-          setName({
+          
+          
+          console.log(result)
+          await setName({
             name: result.data.name,
+            id:result.data.id,
             status: true,
           });
+          
           toast.success(`Signed Sucessfully`, {
             position: toast.POSITION.TOP_RIGHT,
             closeOnClick: false,
             pauseOnHover: true,
           });
+          console.log(name);
           setTimeout(() => {
             navigate("/");
           }, 5000);

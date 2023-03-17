@@ -3,6 +3,7 @@ export const Auth=atom({
     key:"Auth",
     default:{
         name:null,
+        
         status:false
     }
 })
@@ -15,4 +16,11 @@ export const post=atom({
 export const Posts=atom({
     key:"posts",
     default:[]
+})
+
+
+
+export const categoryPostState=atom({
+    key:"categoryPostState",
+    default:{status:false,category:""}
 })

@@ -13,11 +13,10 @@ import "../stylesheet/Single.scss";
   const [posts, setPosts] = useState([]);
   const[id,setId]=useRecoilState(post);
   
-  const navigate=useNavigate();
  
    
   useEffect(() => {
-    axios.get(`/posts?id=${id}`).then(async (res) => {
+    axios.get(`/posts?id=${id}`, { withCredentials: true }).then(async (res) => {
       console.log(res.data.result);
       await setPosts(res.data.result);
     }, [])
@@ -36,10 +35,12 @@ import "../stylesheet/Single.scss";
           <div className="Single">
         
           <img src={Logo} />
-          <p>{posts.id}</p>
+          
           <h2>{posts.tittle}</h2>
-          <h5>{posts.catagory}</h5>
-          <p>{posts.des}</p>
+          <h5>{posts.category}</h5>
+          <span>Posted by:{posts.username}</span><br />
+          <strong>{posts.date}</strong>
+          <div dangerouslySetInnerHTML={{__html: posts.des}}></div>
           </div>
         </Col>
         <Col md={2}></Col>

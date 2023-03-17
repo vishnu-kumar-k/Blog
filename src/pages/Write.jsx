@@ -123,12 +123,11 @@ export const Write = () => {
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     <option>Open this select menu</option>
-                    <option value="Art">Art</option>
-                    <option value="Cinema">Cinema</option>
-                    <option value="Food">Food</option>
-                    <option value="Design">Design</option>
-                    <option value="LifeStyle">LifeStyle</option>
-                    <option value="Tech">Tech</option>
+                    <option value="art">Art</option>
+                    <option value="cinema">Cinema</option>
+                    <option value="food">Food</option>
+                    
+                    <option value="tech">Tech</option>
                   </Form.Select>
                 </div>
                 <Button onClick={Handle} className="outline-success">

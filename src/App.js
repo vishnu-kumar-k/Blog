@@ -17,6 +17,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./stylesheet/App.scss"
 import { useEffect } from "react";
 import { Auth } from "./Atom/Atom";
+import { Mypost } from "./pages/Mypost";
 
 var t=window.innerWidth;
 const Layout=()=>{
@@ -43,6 +44,10 @@ const router=createBrowserRouter([
       {
         path:"/write",
         element:<Write />
+      },
+      {
+        path:"/mypost",
+        element:<Mypost />
       }
     ]
   },

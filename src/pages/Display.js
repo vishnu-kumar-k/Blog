@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil";
 import { post } from "../Atom/Atom";
 import "../stylesheet/Display.scss"
 import logo from "../images/logo.png";
-const Display = ({ ind, img, id, tittle, desc, n }) => {
+const Display = ({ ind, img, id, tittle, desc, n ,date,name,category}) => {
   const navigate=useNavigate();
   const[p,setP]=useRecoilState(post);
  const handle=(e)=>
@@ -14,21 +14,21 @@ const Display = ({ ind, img, id, tittle, desc, n }) => {
   e.preventDefault();
   setP(id);
   navigate("/single")
-
-
  }
+ 
+ 
   return (<div className="Display">
     <Row key={ind}>
       <Col md={4} sm={12} xs={12}>
         <div className="img">
-          <img src={logo} />
-          <p>posted on:21/12/2002</p>
-          <p>Posted by Vishnu</p>
+          <img src={img} />
+          <p>posted on:{date}</p>
+          <p>Posted by {name}</p>
         </div>
       </Col>
       <Col md={8} xs={12} sm={12}>
         <h1>{tittle}</h1>
-        <h3>{desc}</h3>
+        <h3>{category}</h3>
         <p onClick={handle}>Readmore</p>
       </Col>
     </Row>
