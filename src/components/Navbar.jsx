@@ -74,11 +74,16 @@ export const Navbars = () => {
       }, 3000);
     }
   };
+  const handleHome=(e)=>{
+    e.preventDefault();
+    setCategoryPost({status:false,category:""});
+    navigate("/");
+  }
 
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Link className="head" to="/">
+        <Link className="head" onClick={handleHome} >
           Blog
         </Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -98,8 +103,11 @@ export const Navbars = () => {
               <Link
                 className="link-style"
                 value="art"
+                to="/"
                 onClick={() => {
+                  
                   setCategoryPost({status:true,category:"art"});
+                  
                 }}
               >
                 Art
@@ -109,8 +117,10 @@ export const Navbars = () => {
               <Link
                 className="link-style"
                 value="tech"
+                to="/"
                 onClick={() => {
                   setCategoryPost({status:true,category:"tech"});
+                 
                 }}
               >
                 Tech
@@ -121,8 +131,10 @@ export const Navbars = () => {
               <Link
                 className="link-style"
                 value="cinema"
+                to="/"
                 onClick={() => {
                   setCategoryPost({status:true,category:"cinema"});
+                  
                 }}
               >
                 Cinema
@@ -133,8 +145,10 @@ export const Navbars = () => {
               <Link
                 className="link-style"
                 value="food"
+                to="/"
                 onClick={() => {
                   setCategoryPost({status:true,category:"food"});
+                  
                 }}
               >
                 Food{" "}

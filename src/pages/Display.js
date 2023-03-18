@@ -16,21 +16,43 @@ const Display = ({ ind, img, id, tittle, desc, n ,date,name,category}) => {
   navigate("/single")
  }
  
+const dates = new Date(date);
+const d = dates.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+
+
  
   return (<div className="Display">
     <Row key={ind}>
-      <Col md={4} sm={12} xs={12}>
+      {ind%2===0?(<><Col md={6} sm={12} xs={12}>
         <div className="img">
           <img src={img} />
-          <p>posted on:{date}</p>
-          <p>Posted by {name}</p>
+          
         </div>
       </Col>
-      <Col md={8} xs={12} sm={12}>
+      
+      <Col md={6} xs={12} sm={12}>
         <h1>{tittle}</h1>
-        <h3>{category}</h3>
-        <p onClick={handle}>Readmore</p>
-      </Col>
+        <p>category: <strong>{category}</strong></p>        
+          <p>Posted by: <span>{name}</span></p>
+          <p>posted on: <time>{d}</time></p>
+        <button onClick={handle}>Readmore</button>
+      </Col></>):(<><Col md={6} xs={12} sm={12}>
+        <h1>{tittle}</h1>
+        <p>category: <strong>{category}</strong></p>
+        
+          <p>Posted by:<span> {name}</span></p>
+          <p>posted on: <time>{d}</time></p>
+        <button onClick={handle}>Readmore</button>
+
+      </Col><Col md={6} sm={12} xs={12}>
+        <div className="img">
+          <img src={img} />
+          
+        </div>
+      </Col></>
+
+      )}
+      
     </Row>
     </div>
   );

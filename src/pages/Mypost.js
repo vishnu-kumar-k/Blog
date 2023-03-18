@@ -16,6 +16,7 @@ export const Mypost = () => {
         if (res.data.status) {
           setStatus(true);
           await setPost(res.data.result);
+          console.log(res.data.result)
         }
       })
       .catch((err) => {
@@ -36,6 +37,7 @@ export const Mypost = () => {
             img={post.img}
             id={post.id}
             date={post.date}
+            
             tittle={post.tittle}
             desc={post.n}
             n={post.des}

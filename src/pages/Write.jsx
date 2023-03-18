@@ -12,13 +12,15 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import "../stylesheet/Write.scss";
+import { useNavigate } from "react-router-dom";
 export const Write = () => {
   const [tittle, setTittle] = useState("");
   const [date, setDate] = useState("");
   const [category, setCategory] = useState("");
   const [des, setDes] = useState("");
   const [image, setImage] = useState("");
-  const Handle = (e) => {
+  const navigate = useNavigate();
+  const Handle = async(e) => {
     e.preventDefault();
     var flag = true;
     if (tittle.length < 10) {
@@ -54,31 +56,38 @@ export const Write = () => {
       });
     }
     if (flag) {
-      const jsDate = new Date();
+      // Get the current date
+const currentDate = new Date();
 
-      // convert the date to ISO 8601 format
-      const isoDate = jsDate.toISOString();
+// Format the date as YYYY-MM-DD
+const dates = await currentDate.toISOString().slice(0, 10);
+console.log(dates)
 
-      // extract the date and time components from the ISO string
-      const datePart = isoDate.slice(0, 10);
-      const timePart = isoDate.slice(11, 19);
-
-      // concatenate the date and time parts into the desired MySQL format
-      const mysqlDate = `${datePart} ${timePart}`;
       axios
         .post(
           "/addposts",
           {
             tittle: tittle,
             des: des,
-            date: mysqlDate,
+            date: dates,
             img: image,
             category: category,
           },
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res);
+          console.log(res)
+          if (res.data.status) {
+            toast.success(`Published Successfully`, {
+              position: toast.POSITION.TOP_RIGHT,
+              closeOnClick: false,
+              pauseOnHover: true,
+            });
+
+            setTimeout(() => {
+              navigate("/mypost");
+            }, 5000);
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -126,7 +135,7 @@ export const Write = () => {
                     <option value="art">Art</option>
                     <option value="cinema">Cinema</option>
                     <option value="food">Food</option>
-                    
+
                     <option value="tech">Tech</option>
                   </Form.Select>
                 </div>

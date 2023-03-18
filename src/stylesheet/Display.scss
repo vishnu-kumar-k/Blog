@@ -1,9 +1,70 @@
-.Display{
+.Display {
+
     margin-top: 1em;
-    .img
-    {
-        img{
-            width: 10em;
+   
+    padding: 2em;
+    
+    time{
+        color: crimson;
+        font-weight: 600;
+        font-style: italic;
+    }
+    span{
+        color: rgb(241, 23, 23);
+        font-weight: 700;
+        font-style: italic;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    strong{
+        color: rgb(0, 85, 255);
+        font-weight: 500;
+        font-style: italic;
+        font-size: 1.3em;
+        text-transform: capitalize;
+    }
+    p{
+        font-size: 1.1em;
+    }
+
+    button {
+        background-color: aquamarine;
+        border: none;
+        padding: 6px;
+        font-weight: 500;
+        border-radius: 5px 4px 16px 5px;
+        transition-duration: 1s;
+
+        &:hover {
+            background-color: rgb(234, 234, 234);
+            border-radius: 3em;
+            color: red;
+        }
+    }
+
+    h1::first-letter {
+        text-transform: capitalize;
+    }
+
+    h3 {
+        text-transform: capitalize;
+    }
+
+    .img {
+
+        img {
+            filter: brightness(70%);
+            transition: all .8s ease-in;
+            box-shadow: 15px 15px 10px rgba(0, 255, 162, .3);
+            max-width: 24em;
+            min-width: 18em;
+            
+
+            &:hover {
+                
+                transform: scale(1.03);
+                filter: brightness(100%);
+            }
+            
         }
     }
 }
