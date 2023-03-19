@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { categoryPostState, Posts } from "../Atom/Atom";
 import axios from "../axios/Axios";
@@ -8,43 +8,36 @@ import Display from "./Display";
 export const Home = () => {
   const [post, setPost] = useRecoilState(Posts);
   const [status, setStatus] = useState(false);
-  const [categoryPost,setcategoryPost] = useRecoilState(categoryPostState);
+  const [count, setCount] = useState(0);
+  const [len, setLen] = useState(0);
+  const [categoryPost, setcategoryPost] = useRecoilState(categoryPostState);
   useEffect(() => {
-    if (0) {
-      axios
-        .get("posts", { withCredentials: true })
-        .then(async (res) => {
-          if (res.data.status) {
-            await setPost(res.data.result);
-            setStatus(true);
-            console.log(res.data.result);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log("Category  "+categoryPost.category)
-      axios
-        .get(`posts?category=${categoryPost.category}`, { withCredentials: true })
-        .then(async (res) => {
-          if (res.data.status) {
-            await setStatus(true);
-            await setPost(res.data.result);
-            
-            console.log(res.data.result);
-          }
-          else
-          {
-            setStatus(false);
-            
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [categoryPost]);
+    console.log("Category  " + categoryPost.category);
+    axios
+      .get(`posts?category=${categoryPost.category}`, { withCredentials: true })
+      .then(async (res) => {
+        if (res.data.status) {
+          await setStatus(true);
+          setLen(res.data.result.length);
+          await setPost(res.data.result.slice(count,count+10));
+          window.scrollTo(0,0);
+        } else {
+          setStatus(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [categoryPost,count]);
+  const handleNext=(e)=>{
+    e.preventDefault();
+    setCount(prev=>prev+10);
+  }
+  const handleBack=(e)=>{
+    e.preventDefault();
+    setCount(prev=>prev-10);
+  }
+  console.log(len);
 
   return (
     <Container fluid>
@@ -65,6 +58,10 @@ export const Home = () => {
       ) : (
         <p>No Posts</p>
       )}
+      
+      {len > 10 && count !== 0 ? <Button onClick={handleBack}  variant="outline-primary float-start">Previous page</Button> : <></>}
+      {len > 10 && len>count+10 ? <Button onClick={handleNext}  variant="outline-primary rounded mx-auto d-block">Next page</Button> : <></>}
+      
     </Container>
   );
 };

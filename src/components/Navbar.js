@@ -35,8 +35,7 @@ export const Navbars = () => {
         .get("/logout", { withCredentials: true })
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
-      await localStorage.removeItem("name");
-      await setUser({ name: null, status: false, id: null });
+      await setUser({ name: null, status: false });
     } else {
       navigate("/login");
     }
@@ -84,7 +83,7 @@ export const Navbars = () => {
     <Navbar bg="light" expand="lg">
       <Container fluid>
         <Link className="head" onClick={handleHome} >
-          Blog
+          Mindverse
         </Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -99,6 +98,7 @@ export const Navbars = () => {
                 Write
               </Link>
             </Navbar.Brand>
+            
             <Navbar.Brand>
               <Link
                 className="link-style"

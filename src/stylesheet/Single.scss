@@ -1,8 +1,34 @@
 .Single
 {
+    margin-top: 2em;
+    background-color: azure;
+    padding: 2em;
     img{
         width: 30em;
         align-items: center;
         justify-content: center;
+        margin-bottom: 3em;
+        transition-duration: 1s;
+        &:hover{
+            box-shadow: 15px 15px 10px rgba(0, 255, 162, .3);
+
+        }
     }
+    h2{
+        color: rgb(255, 0, 0);
+        background-color: rgb(244, 253, 255);
+        border-radius: 1em;
+        padding: 6px;
+        width: fit-content;
+        &::first-letter{
+         text-transform: capitalize;    
+        }
+    }
+    span{
+        color: blue;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+    
+    
 }

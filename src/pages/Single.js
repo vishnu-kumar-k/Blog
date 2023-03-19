@@ -17,7 +17,7 @@ import "../stylesheet/Single.scss";
    
   useEffect(() => {
     axios.get(`/posts?id=${id}`, { withCredentials: true }).then(async (res) => {
-      console.log(res.data.result);
+      console.log(res.data);
       await setPosts(res.data.result);
     }, [])
     .catch((err)=>
@@ -25,7 +25,8 @@ import "../stylesheet/Single.scss";
       console.log(err)
     })
   }, []);
-  
+  const dates = new Date(posts.date);
+const d = dates.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
   
   return (
     <Container fluid>
@@ -34,12 +35,12 @@ import "../stylesheet/Single.scss";
         <Col md={8}>
           <div className="Single">
         
-          <img src={Logo} />
+          <img src={posts.img} className="rounded mx-auto d-block"/>
           
           <h2>{posts.tittle}</h2>
-          <h5>{posts.category}</h5>
-          <span>Posted by:{posts.username}</span><br />
-          <strong>{posts.date}</strong>
+         <p>Category: <span>{posts.category}</span></p>
+          <p>Posted by: <span>{posts.username}</span></p>
+          <strong>{d}</strong>
           <div dangerouslySetInnerHTML={{__html: posts.des}}></div>
           </div>
         </Col>
