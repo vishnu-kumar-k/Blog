@@ -1,16 +1,15 @@
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import "../stylesheet/Navbar.scss";
 import { useRecoilState } from "recoil";
-import { Auth, categoryPostState } from "../Atom/Atom";
+import { Auth, categoryPostState, Count } from "../Atom/Atom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import axios from "../axios/Axios";
+import { NavDropdown } from "react-bootstrap";
 
 //Handling Navbars
 export const Navbars = () => {
@@ -25,6 +24,7 @@ export const Navbars = () => {
       });
     }
   }, []);
+  const [count, setCount] = useRecoilState(Count);
   const navigate = useNavigate();
 
   //Handling Logout Function
@@ -81,106 +81,66 @@ export const Navbars = () => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Container fluid>
-        <Link className="head" onClick={handleHome} >
-          Mindverse
-        </Link>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="justify-content-end flex-grow-1 pe-3"
-            style={{ maxHeight: "270px" }}
-            navbarScroll
-          >
-            <Navbar.Brand>
-              {" "}
-              <Link className="link-style-write" onClick={handleWrite}>
-                Write
-              </Link>
-            </Navbar.Brand>
-            
-            <Navbar.Brand>
-              <Link
-                className="link-style"
-                value="art"
-                to="/"
-                onClick={() => {
-                  
-                  setCategoryPost({status:true,category:"art"});
-                  
-                }}
-              >
-                Art
-              </Link>
-            </Navbar.Brand>
-            <Navbar.Brand>
-              <Link
-                className="link-style"
-                value="tech"
-                to="/"
-                onClick={() => {
-                  setCategoryPost({status:true,category:"tech"});
-                 
-                }}
-              >
-                Tech
-              </Link>
-            </Navbar.Brand>
-            <Navbar.Brand>
-              {" "}
-              <Link
-                className="link-style"
-                value="cinema"
-                to="/"
-                onClick={() => {
-                  setCategoryPost({status:true,category:"cinema"});
-                  
-                }}
-              >
-                Cinema
-              </Link>
-            </Navbar.Brand>
-            <Navbar.Brand>
-              {" "}
-              <Link
-                className="link-style"
-                value="food"
-                to="/"
-                onClick={() => {
-                  setCategoryPost({status:true,category:"food"});
-                  
-                }}
-              >
-                Food{" "}
-              </Link>
-            </Navbar.Brand>
-            <Navbar.Brand>
-              {" "}
-              <Link className="link-style" onClick={myPost}>
-                Mypost{" "}
-              </Link>
-            </Navbar.Brand>
-          </Nav>
-          {user.status ? (
-            <>
-              <Navbar.Brand>
-                <Link className="link-style"> {user.name} </Link>
-              </Navbar.Brand>
-              <br />
-            </>
-          ) : (
-            <></>
-          )}
+  <Container fluid>
+    <Link className="head" onClick={handleHome}>
+      Mindverse
+    </Link>
+    <Navbar.Toggle aria-controls="navbarScroll" />
+    <Navbar.Collapse id="navbarScroll">
+      <Nav className="justify-content-end flex-grow-1 pe-3" style={{ maxHeight: "370px" }} navbarScroll>
+        
+        <NavDropdown className="link-style" title="Categories" id="navbarScrollingDropdown" style={{font:"inherit", color:"black",fontSize:"1.4em"}}>
+        <NavDropdown.Item onClick={() => { setCategoryPost({ status: false, category: "" }); navigate("/"); setCount(0)}}>
+            All
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={() => { setCategoryPost({ status: true, category: "Lifestyle" }); navigate("/"); setCount(0)}}>
+            Lifestyle
+          </NavDropdown.Item>
+          <NavDropdown.Item  onClick={() => { setCategoryPost({ status: true, category: "Technology" });navigate("/"); setCount(0) }}>
+            Technology
+          </NavDropdown.Item>
+          <NavDropdown.Item  onClick={() => { setCategoryPost({ status: true, category: "Business and finance" }); navigate("/"); setCount(0)}}>
+          Business and finance
+          </NavDropdown.Item>
+          <NavDropdown.Item   onClick={() => { setCategoryPost({ status: true, category: "Arts and culture" });navigate("/"); setCount(0) }}>
+          Arts and culture
+          </NavDropdown.Item>
+          <NavDropdown.Item   onClick={() => { setCategoryPost({ status: true, category: "News and current events" });navigate("/"); setCount(0) }}>
+          News and current events
+          </NavDropdown.Item>
+        </NavDropdown>
+        <Navbar.Brand>
+          <Link className="link-style" onClick={handleWrite}>
+            Write
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Brand>
+          <Link className="link-style" onClick={myPost}>
+            Mypost
+          </Link>
+        </Navbar.Brand>
+      
+      {user.status ? (
+        <>
           <Navbar.Brand>
-            <Link className="link-style" onClick={handleLogin}>
-              {" "}
-              {user.status ? "Logout" : "Login"}{" "}
-            </Link>
+            <Link className="link-style-name"> {user.name} </Link>
           </Navbar.Brand>
+          
+        </>
+      ) : (
+        <></>
+      )}
+      <Navbar.Brand>
+        <Link className="link-style-login" onClick={handleLogin} >
+          {" "}
+          {user.status ? "Logout" : "Login"}{" "}
+        </Link>
+      </Navbar.Brand>
+      </Nav>
+      <ToastContainer />
+    </Navbar.Collapse>
+  </Container>
+</Navbar>
 
-          <ToastContainer />
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
   );
 };

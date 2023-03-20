@@ -83,7 +83,7 @@ export const Login = () => {
                   setPassword(e.target.value);
                 }}
               />
-              <button type="submit" class="btn btn-secondary">
+              <button type="submit" class="btn btn-primary" style={{width:"fit-content"}}>
                 submit
               </button>
               <span>

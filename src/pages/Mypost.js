@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Posts } from "../Atom/Atom";
+import { deletePost, Posts } from "../Atom/Atom";
 import axios from "../axios/Axios";
 import "../stylesheet/Home.scss";
 import Display from "./Display";
@@ -10,6 +10,7 @@ export const Mypost = () => {
   const [post, setPost] = useRecoilState(Posts);
   const [count, setCount] = useState(0);
   const [len, setLen] = useState(0);
+  const p=useRecoilValue(deletePost);
   useEffect(() => {
     axios
       .get("posts?userid=1", { withCredentials: true })
@@ -27,7 +28,7 @@ export const Mypost = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [count]);
+  }, [count,p]);
   const handleNext=(e)=>{
     e.preventDefault();
     setCount(prev=>prev+10);
@@ -44,6 +45,7 @@ export const Mypost = () => {
       ) : (
         post.map((post, index) => (
           <Display
+            flag={true}
             category={post.category}
             ind={index}
             name={post.username}

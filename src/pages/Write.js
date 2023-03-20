@@ -15,7 +15,6 @@ import "../stylesheet/Write.scss";
 import { useNavigate } from "react-router-dom";
 export const Write = () => {
   const [tittle, setTittle] = useState("");
-  const [date, setDate] = useState("");
   const [category, setCategory] = useState("");
   const [des, setDes] = useState("");
   const [image, setImage] = useState("");
@@ -56,12 +55,11 @@ export const Write = () => {
       });
     }
     if (flag) {
-      // Get the current date
+      
 const currentDate = new Date();
 
 // Format the date as YYYY-MM-DD
 const dates = await currentDate.toISOString().slice(0, 10);
-console.log(dates)
 
       axios
         .post(
@@ -78,15 +76,23 @@ console.log(dates)
         .then((res) => {
           console.log(res)
           if (res.data.status) {
-            toast.success(`Published Successfully`, {
+            toast.success(res.data.msg, {
               position: toast.POSITION.TOP_RIGHT,
               closeOnClick: false,
               pauseOnHover: true,
             });
+            
 
             setTimeout(() => {
               navigate("/mypost");
             }, 5000);
+          }
+          else{
+            toast.info(res.data.msg, {
+              position: toast.POSITION.TOP_RIGHT,
+              closeOnClick: false,
+              pauseOnHover: true,
+            });
           }
         })
         .catch((err) => console.log(err));
@@ -132,11 +138,11 @@ console.log(dates)
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     <option>Open this select menu</option>
-                    <option value="art">Art</option>
-                    <option value="cinema">Cinema</option>
-                    <option value="food">Food</option>
-
-                    <option value="tech">Tech</option>
+                    <option value="Lifestyle">Lifestyle</option>
+                    <option value="Business and finance">Business and finance</option>
+                    <option value="Technology">Technology</option>
+                    <option value="News and current events">News and current events</option>
+                    <option value="Arts and culture">Arts and culture</option>
                   </Form.Select>
                 </div>
                 <Button onClick={Handle} className="outline-success">

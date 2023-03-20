@@ -16,6 +16,9 @@ export const Register = () => {
   const [password, setPassword] = useState();
   const HandleSumbit = async (e) => {
     e.preventDefault();
+    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+    if(regex.test(password))
+    {
     await axios
       .post(
         "/register",
@@ -50,6 +53,14 @@ export const Register = () => {
       .catch((err) => {
         console.log(err);
       });
+    }
+    else{
+      toast.error(`Password is Weak`, {
+        position: toast.POSITION.TOP_RIGHT,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
   };
 
   return (
@@ -84,7 +95,7 @@ export const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button type="submit" class="btn btn-secondary">
+              <button type="submit" class="btn btn-primary" style={{width:"fit-content"}}>
                 submit
               </button>
               <span>

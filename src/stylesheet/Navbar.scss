@@ -1,62 +1,44 @@
-.head
-{
-    font-size: 2em;
-    color: rgb(255, 0, 0);
-    background-color: rgba(0, 255, 255, 0.675);
-    padding: .1em .3em;
-    text-decoration: none;
-    border-radius: 2em 3em 2em 1.6em;
-    cursor: pointer;
-    transition-duration: .5s;
-    &:hover{
-        background-color: rgba(127, 255, 212, 0.859);
-        border-radius: 3em 2em 1em 3.6em;
-        color: rgb(0, 0, 0);
-    }
+.head{
+  font-size: x-large;
+  text-decoration: none;
+  background: #a8ff78;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color:rgb(255, 0, 0);
+  border-radius: 1em 2em 3em 2em;
+  padding: 3px 10px; 
+  transition-duration: .6s;
+  &:hover{
+    transform: scale(1.04);
+    color: blue;
+    border-radius: 2em 3em 2em 1em;
+  }
 }
-.link-style
-{
+.link-style{
+  color: #000000;
+  font-size: 1.2rem;
+  
+  text-decoration: none;
+}
+.link-style-login{
+  color: #000000;
+  font-size: 1.2rem;
+  color: red;
+  
+  text-decoration: none;
+  transition-duration: all 1s;
+  &:hover{
+    text-decoration: underline;
+    color:red;
+  }
+}
+.link-style-name{
+  cursor:none ;
+  color: #000000;
+  font-size: 1.2rem;
+  text-decoration: none;
+  &:hover{
     
-    color: rgb(3, 116, 255);
-    text-decoration: solid;
-    transition-duration: 1s;
-    &:hover{
-        background-color: aquamarine;
-    padding: .3em;
-    border-radius: 1.5em;
-    text-decoration: none;
-    }
-}
-.log-style
-{
-    color:red ;
-    text-decoration: none;
-    &:hover{
-        color:red ;
-        text-decoration: underline;
-    }
-}
-
-.footer
-{
-    margin-top: 1em;
-    img 
-    {
-        width: 4em;
-    }
-    span 
-    {
-        width: 4em;
-    }
-}
-.link-style-write{
-    background-color: aquamarine;
-    padding: .3em;
-    border-radius: 1.5em;
-    text-decoration: none;
-    transition-duration: .5s; 
-    &:hover{
-        background-color: rgb(255, 0, 0);
-        color: rgb(255, 255, 255);
-    }
+    color: #000000;
+  }
 }

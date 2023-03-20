@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { categoryPostState, Posts } from "../Atom/Atom";
+import { categoryPostState, Count, Posts } from "../Atom/Atom";
 import axios from "../axios/Axios";
 import "../stylesheet/Home.scss";
 import Display from "./Display";
 export const Home = () => {
   const [post, setPost] = useRecoilState(Posts);
   const [status, setStatus] = useState(false);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useRecoilState(Count);
   const [len, setLen] = useState(0);
   const [categoryPost, setcategoryPost] = useRecoilState(categoryPostState);
   useEffect(() => {
@@ -44,6 +44,7 @@ export const Home = () => {
       {status ? (
         post.map((post, index) => (
           <Display
+          flag={false}
             category={post.category}
             ind={index}
             name={post.username}

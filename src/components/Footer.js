@@ -54,7 +54,7 @@ export const Footer = () => {
       }
       else
       {
-        toast.danger("Something went Wrong", {
+        toast.info("Please try after some time", {
           position: toast.POSITION.TOP_RIGHT,
           closeOnClick: false,
           pauseOnHover: true,

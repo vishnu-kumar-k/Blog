@@ -1,3 +1,10 @@
+// Define color variables
+$crimson: crimson;
+$red: rgb(241, 23, 23);
+$blue: rgb(0, 85, 255);
+$aquamarine: aquamarine;
+$light-gray: rgb(234, 234, 234);
+$green: rgba(0, 255, 162, .3);
 .Display {
 
     margin-top: 1em;
@@ -5,18 +12,18 @@
     padding: 2em;
     
     time{
-        color: crimson;
+        color: $crimson;
         font-weight: 600;
         font-style: italic;
     }
     span{
-        color: rgb(241, 23, 23);
+        color: $red;
         font-weight: 700;
         font-style: italic;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     strong{
-        color: rgb(0, 85, 255);
+        color: $blue;
         font-weight: 500;
         font-style: italic;
         font-size: 1.3em;
@@ -26,20 +33,7 @@
         font-size: 1.1em;
     }
 
-    button {
-        background-color: aquamarine;
-        border: none;
-        padding: 6px;
-        font-weight: 500;
-        border-radius: 5px 4px 16px 5px;
-        transition-duration: 1s;
-
-        &:hover {
-            background-color: rgb(234, 234, 234);
-            border-radius: 3em;
-            color: red;
-        }
-    }
+    
 
     h1::first-letter {
         text-transform: capitalize;
@@ -54,7 +48,7 @@
         img {
             filter: brightness(70%);
             transition: all .8s ease-in;
-            box-shadow: 15px 15px 10px rgba(0, 255, 162, .3);
+            box-shadow: 15px 15px 10px $green;
             max-width: 24em;
             min-width: 18em;
             
