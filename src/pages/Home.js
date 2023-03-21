@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { categoryPostState, Count, Posts } from "../Atom/Atom";
+import { categoryPostState, Count, jsonwebtoken, Posts } from "../Atom/Atom";
 import axios from "../axios/Axios";
 import "../stylesheet/Home.scss";
 import Display from "./Display";
@@ -10,11 +10,11 @@ export const Home = () => {
   const [status, setStatus] = useState(false);
   const [count, setCount] = useRecoilState(Count);
   const [len, setLen] = useState(0);
+  const jwt=useRecoilValue(jsonwebtoken);
   const [categoryPost, setcategoryPost] = useRecoilState(categoryPostState);
   useEffect(() => {
-    console.log("Category  " + categoryPost.category);
     axios
-      .get(`posts?category=${categoryPost.category}`, { withCredentials: true })
+      .post(`posts?category=${categoryPost.category}`,{jwt:jwt}, { withCredentials: true })
       .then(async (res) => {
         if (res.data.status) {
           await setStatus(true);

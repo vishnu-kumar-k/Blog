@@ -2,7 +2,7 @@ import axios from "../axios/Axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { Auth } from "../Atom/Atom";
+import { Auth, jsonwebtoken } from "../Atom/Atom";
 import { useNavigate } from "react-router-dom";
 import "../stylesheet/Register.scss";
 import { Col, Container, Row } from "react-bootstrap";
@@ -14,7 +14,7 @@ export const Register = () => {
   const [user, setUser] = useRecoilState(Auth);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const[notify,setNotify]=useState(false);
+  const[jwt,setJwt]=useRecoilState(jsonwebtoken);
   const HandleSumbit = async (e) => {
     e.preventDefault();
     const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
@@ -33,8 +33,10 @@ export const Register = () => {
         { withCredentials: true }
       )
       .then((result) => {
-        setNotify(50);
+        
         if (result.data.status) {
+          setJwt(result.data.jwt);
+          localStorage.setItem("jwt",result.data.jwt);
           setUser({ status: true,name:user.name });
           
           toast.success(`Signed as ${user.name}`, {

@@ -13,12 +13,15 @@ import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import "../stylesheet/Write.scss";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { jsonwebtoken } from "../Atom/Atom.js";
 export const Write = () => {
   const [tittle, setTittle] = useState("");
   const [category, setCategory] = useState("");
   const [des, setDes] = useState("");
   const [image, setImage] = useState("");
   const navigate = useNavigate();
+  const jwt=useRecoilValue(jsonwebtoken);
   const Handle = async(e) => {
     e.preventDefault();
     var flag = true;
@@ -70,6 +73,7 @@ const dates = await currentDate.toISOString().slice(0, 10);
             date: dates,
             img: image,
             category: category,
+            jwt:jwt
           },
           { withCredentials: true }
         )

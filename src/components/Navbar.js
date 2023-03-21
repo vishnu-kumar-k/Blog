@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import "../stylesheet/Navbar.scss";
 import { useRecoilState } from "recoil";
-import { Auth, categoryPostState, Count } from "../Atom/Atom";
+import { Auth, categoryPostState, Count, jsonwebtoken } from "../Atom/Atom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
@@ -14,12 +14,18 @@ import { NavDropdown } from "react-bootstrap";
 //Handling Navbars
 export const Navbars = () => {
   const [user, setUser] = useRecoilState(Auth);
+ 
   const [categoryPost, setCategoryPost] = useRecoilState(categoryPostState);
+  const [jwt,setJwt]=useRecoilState(jsonwebtoken);
   useEffect(() => {
-    if (!user.status) {
-      axios.get("/verify", { withCredentials: true }).then(async (res) => {
+    if (!user.status && jwt!==undefined && jwt!==null) {
+      axios.post("/verify",{jwt:jwt}, { withCredentials: true }).then(async (res) => {
         if (res.data.status) {
           await setUser({ name: res.data.name, status: true });
+        }
+        else{
+          localStorage.removeItem("jwt");
+          setJwt(null);
         }
       });
     }
@@ -31,10 +37,9 @@ export const Navbars = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (user.status) {
-      await axios
-        .get("/logout", { withCredentials: true })
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err));
+      localStorage.removeItem("jwt");
+      setJwt(null);
+      navigate("/");
       await setUser({ name: null, status: false });
     } else {
       navigate("/login");

@@ -30,3 +30,8 @@ export const deletePost=atom({
   key:"deletePost",
   default:true
 })
+
+export const jsonwebtoken=atom({
+  key:"jsonwebtoken",
+  default:localStorage.getItem("jwt")
+})

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../axios/Axios";
 import { useRecoilState } from "recoil";
-import { Auth } from "../Atom/Atom";
+import { Auth, jsonwebtoken } from "../Atom/Atom";
 import { useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,6 +12,7 @@ export const Login = () => {
   const [email, setEmail] = useState();
   const [name, setName] = useRecoilState(Auth);
   const [password, setPassword] = useState();
+  const[jwt,setJwt]=useRecoilState(jsonwebtoken);
   const HandleSumbit = async (e) => {
     e.preventDefault();
     axios
@@ -25,9 +26,9 @@ export const Login = () => {
       )
       .then(async (result) => {
         if (result.data.status) {
+          localStorage.setItem("jwt",result.data.jwt);
           
-          
-          console.log(result)
+          setJwt(result.data.jwt);
           await setName({
             name: result.data.name,
             id:result.data.id,

@@ -4,16 +4,16 @@ import { Menu } from "../components/Menu";
 import { Col, Container, Row } from "react-bootstrap";
 import axios from "../axios/Axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { post, Posts } from "../Atom/Atom";
+import { jsonwebtoken, post, Posts } from "../Atom/Atom";
 import "../stylesheet/Single.scss";
  const Single = () => {
   const [posts, setPosts] = useState([]);
   const[id,setId]=useRecoilState(post);
   const[similar,setSimilar]=useState();
- 
+  const jwt=useRecoilValue(jsonwebtoken)
    
   useEffect(() => {
-    axios.get(`/posts?id=${id}`, { withCredentials: true }).then(async (res) => {
+    axios.post(`/posts?id=${id}`,{jwt:jwt}, { withCredentials: true }).then(async (res) => {
       
       await setPosts(res.data.result);
       await setSimilar(res.data.similarPost)

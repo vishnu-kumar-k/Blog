@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { deletePost, Posts } from "../Atom/Atom";
+import { deletePost, jsonwebtoken, Posts } from "../Atom/Atom";
 import axios from "../axios/Axios";
 import "../stylesheet/Home.scss";
 import Display from "./Display";
@@ -10,10 +12,13 @@ export const Mypost = () => {
   const [post, setPost] = useRecoilState(Posts);
   const [count, setCount] = useState(0);
   const [len, setLen] = useState(0);
+  const jwt=useRecoilValue(jsonwebtoken);
   const p=useRecoilValue(deletePost);
+  const navigate=useNavigate();
   useEffect(() => {
+    
     axios
-      .get("posts?userid=1", { withCredentials: true })
+      .post("posts?userid=1", {jwt:jwt},{ withCredentials: true })
       .then(async (res) => {
         if (res.data.status) {
           await setStatus(true);
@@ -27,8 +32,8 @@ export const Mypost = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
-  }, [count,p]);
+      });}
+  , [count,p,jwt]);
   const handleNext=(e)=>{
     e.preventDefault();
     setCount(prev=>prev+10);

@@ -4,13 +4,14 @@ import { Col, Container, Row, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
-import { Auth } from "../Atom/Atom";
+import { Auth, jsonwebtoken } from "../Atom/Atom";
 
 
 import "../stylesheet/Footer.scss";
 export const Footer = () => {
   const[user]=useRecoilState(Auth);
   const[suggestions,setSuggestions]=useState("");
+  const[jwt]=useRecoilState(jsonwebtoken)
   const navigate=useNavigate();
   const handle=(e)=>{
     if(!user.status)
@@ -41,7 +42,8 @@ export const Footer = () => {
   const handleSubmit=(e)=>{
     e.preventDefault();
     axios.post("/suggestions",{
-      suggestions:suggestions
+      suggestions:suggestions,
+      jwt:jwt
     },{withCredentials:true}).then((res)=>
     {
       if(res.data.status)
