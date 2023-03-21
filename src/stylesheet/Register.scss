@@ -1,23 +1,25 @@
-.auth
-{
+.auth {
     margin-top: 10em;
-    h1{
+
+    h1 {
         text-align: center;
         color: rgb(252, 0, 50);
         margin-bottom: 1em;
     }
-    form 
-    {
+
+    form {
         display: flex;
         flex-direction: column;
-        gap:1em
+        gap: 1em
     }
-   background-color: rgba(60, 224, 159, 0.9);
-        padding: 1em;
+
+    background-color: rgba(54, 139, 152, 0.9);
+    padding: 1em;
     border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    span 
-    {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    span {
         font-size: 1.2em;
     }
 }

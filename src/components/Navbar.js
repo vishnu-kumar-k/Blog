@@ -82,14 +82,14 @@ export const Navbars = () => {
   return (
     <Navbar bg="light" expand="lg">
   <Container fluid>
-    <Link className="head" onClick={handleHome}>
+    <Link className="head nav-link" onClick={handleHome}>
       Mindverse
     </Link>
     <Navbar.Toggle aria-controls="navbarScroll" />
     <Navbar.Collapse id="navbarScroll">
-      <Nav className="justify-content-end flex-grow-1 pe-3" style={{ maxHeight: "370px" }} navbarScroll>
+      <Nav className="justify-content-end flex-grow-1 pe-3 nav-link" style={{ maxHeight: "470px" }} navbarScroll>
         
-        <NavDropdown className="link-style" title="Categories" id="navbarScrollingDropdown" style={{font:"inherit", color:"black",fontSize:"1.4em"}}>
+        <NavDropdown className="nav-link" title="Categories" id="navbarScrollingDropdown" style={{font:"inherit", color:"black",fontSize:"1.3em"}}>
         <NavDropdown.Item onClick={() => { setCategoryPost({ status: false, category: "" }); navigate("/"); setCount(0)}}>
             All
           </NavDropdown.Item>
@@ -110,12 +110,12 @@ export const Navbars = () => {
           </NavDropdown.Item>
         </NavDropdown>
         <Navbar.Brand>
-          <Link className="link-style" onClick={handleWrite}>
+          <Link className="link-style nav-link" onClick={handleWrite}>
             Write
           </Link>
         </Navbar.Brand>
         <Navbar.Brand>
-          <Link className="link-style" onClick={myPost}>
+          <Link className="link-style nav-link" onClick={myPost}>
             Mypost
           </Link>
         </Navbar.Brand>
@@ -123,7 +123,7 @@ export const Navbars = () => {
       {user.status ? (
         <>
           <Navbar.Brand>
-            <Link className="link-style-name"> {user.name} </Link>
+            <Link className="link-style-name nav-link"> {user.name} </Link>
           </Navbar.Brand>
           
         </>
@@ -131,7 +131,7 @@ export const Navbars = () => {
         <></>
       )}
       <Navbar.Brand>
-        <Link className="link-style-login" onClick={handleLogin} >
+        <Link className="link-style-login nav-link" onClick={handleLogin} >
           {" "}
           {user.status ? "Logout" : "Login"}{" "}
         </Link>

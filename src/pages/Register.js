@@ -14,11 +14,14 @@ export const Register = () => {
   const [user, setUser] = useRecoilState(Auth);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const[notify,setNotify]=useState(false);
   const HandleSumbit = async (e) => {
     e.preventDefault();
     const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
     if(regex.test(password))
     {
+      
+    try{
     await axios
       .post(
         "/register",
@@ -30,7 +33,7 @@ export const Register = () => {
         { withCredentials: true }
       )
       .then((result) => {
-        
+        setNotify(50);
         if (result.data.status) {
           setUser({ status: true,name:user.name });
           
@@ -54,6 +57,11 @@ export const Register = () => {
         console.log(err);
       });
     }
+    catch(err)
+    {
+      console.log(err);
+    }
+  }
     else{
       toast.error(`Password is Weak`, {
         position: toast.POSITION.TOP_RIGHT,

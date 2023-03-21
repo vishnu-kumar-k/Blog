@@ -1,44 +1,12 @@
 .head{
-  font-size: x-large;
-  text-decoration: none;
-  background: #a8ff78;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-color:rgb(255, 0, 0);
-  border-radius: 1em 2em 3em 2em;
-  padding: 3px 10px; 
-  transition-duration: .6s;
-  &:hover{
-    transform: scale(1.04);
-    color: blue;
-    border-radius: 2em 3em 2em 1em;
-  }
-}
-.link-style{
-  color: #000000;
-  font-size: 1.2rem;
+  color: red;
+  font-size: 1.6em;
   
-  text-decoration: none;
 }
 .link-style-login{
-  color: #000000;
-  font-size: 1.2rem;
   color: red;
-  
-  text-decoration: none;
-  transition-duration: all 1s;
   &:hover{
-    text-decoration: underline;
     color:red;
-  }
-}
-.link-style-name{
-  cursor:none ;
-  color: #000000;
-  font-size: 1.2rem;
-  text-decoration: none;
-  &:hover{
-    
-    color: #000000;
+    text-decoration: underline;
   }
 }
