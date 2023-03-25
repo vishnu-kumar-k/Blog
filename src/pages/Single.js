@@ -17,7 +17,6 @@ import Loading from "./Loading";
       setLoading(false);
       await setPosts(res.data.result);
       await setSimilar(res.data.similarPost)
-      console.log(similar)
     })
     .catch((err)=>
     {

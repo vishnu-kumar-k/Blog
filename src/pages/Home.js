@@ -41,7 +41,6 @@ export const Home = () => {
     e.preventDefault();
     setCount(prev=>prev-10);
   }
-  console.log(len);
 
   return (
     <Container>

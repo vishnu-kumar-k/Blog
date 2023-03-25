@@ -44,7 +44,6 @@ export const Login = () => {
             closeOnClick: false,
             pauseOnHover: true,
           });
-          console.log(name);
           setTimeout(() => {
             navigate("/");
           }, 5000);
