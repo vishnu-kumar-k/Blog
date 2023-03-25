@@ -7,7 +7,7 @@ const Loading = () => {
       
       <div className="flex-grow-1 d-flex align-items-center justify-content-center">
         
-        <BarLoader  color="#0077FE "/>
+        <BarLoader  color="#0077FE"/>
       </div>
     </div>
   )
