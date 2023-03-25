@@ -44,18 +44,18 @@ $green: rgba(0, 255, 162, .3);
     }
 
     .img {
-
+        padding: 1em;
         img {
             filter: brightness(70%);
             transition: all .8s ease-in;
             box-shadow: 15px 15px 10px $green;
-            max-width: 24em;
-            min-width: 18em;
+            max-height: 20em;
+            width: 100%;
             
 
             &:hover {
                 
-                transform: scale(1.03);
+                transform: rotateZ(-5deg) rotateY(5deg);
                 filter: brightness(100%);
             }
             

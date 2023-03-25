@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../axios/Axios";
 import { useRecoilState } from "recoil";
-import { Auth, jsonwebtoken } from "../Atom/Atom";
+import { Auth, jsonwebtoken, Load } from "../Atom/Atom";
 import { useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "./Loading";
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [name, setName] = useRecoilState(Auth);
   const [password, setPassword] = useState();
   const[jwt,setJwt]=useRecoilState(jsonwebtoken);
+  const[loading,setLoading]=useRecoilState(Load);
   const HandleSumbit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     axios
       .post(
         "login/",
@@ -25,6 +28,7 @@ export const Login = () => {
         { withCredentials: true }
       )
       .then(async (result) => {
+        setLoading(false);
         if (result.data.status) {
           localStorage.setItem("jwt",result.data.jwt);
           
@@ -58,6 +62,7 @@ export const Login = () => {
   };
   return (
     <Container>
+      {loading?(<Loading />):(<>
       <Row>
         <Col xs={0} md={3}></Col>
         <Col xs={12} md={6}>
@@ -91,11 +96,12 @@ export const Login = () => {
                 Don't you have an account? <Link to="/Register">Register</Link>
               </span>
             </form>
-            <ToastContainer />
+            
           </div>
         </Col>
         <Col xs={0} md={3}></Col>
-      </Row>
+      </Row></>)}
+      <ToastContainer />
     </Container>
   );
 };

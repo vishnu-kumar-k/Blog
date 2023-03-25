@@ -61,12 +61,12 @@ const Display = ({ ind, img, id, tittle, desc, n, date, name, category,flag }) =
       <Row key={ind}>
         {ind % 2 === 0 ? (
           <>
-            <Col md={6} sm={12} xs={12}>
+            <Col md={5} sm={12} xs={12}>
               <div className="img">
-                <img src={img} alt=''/>
+                <img src={img} alt='' className=" rounded mx-auto d-block img-fluid"/>
               </div>
             </Col>
-
+<Col md={1} sm={0} xs={0}></Col>
             <Col md={6} xs={12} sm={12}>
               <h1>{tittle}</h1>
               <p>
@@ -86,7 +86,7 @@ const Display = ({ ind, img, id, tittle, desc, n, date, name, category,flag }) =
           </>
         ) : (
           <>
-            <Col md={6} xs={12} sm={12}>
+            <Col md={6} xs={12} sm={12} >
               <h1>{tittle}</h1>
               <p>
                 category: <strong>{category}</strong>
@@ -102,11 +102,13 @@ const Display = ({ ind, img, id, tittle, desc, n, date, name, category,flag }) =
               {flag?(<button className="btn btn-outline-danger"  onClick={()=>setShowConfirm(true)} >Delete</button>):(<></>)}
               </div>
             </Col>
-            <Col md={6} sm={12} xs={12}>
+            
+            <Col md={5} sm={12} xs={12}>
               <div className="img">
-                <img src={img} />
+                <img src={img} className='img-fluid' />
               </div>
             </Col>
+            <Col md={1} sm={0} xs={0}></Col>
           </>
         )}
       </Row>

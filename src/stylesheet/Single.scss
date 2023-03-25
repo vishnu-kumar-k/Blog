@@ -6,8 +6,7 @@ $green: rgba(0, 255, 162, .3);
   padding: 2em;
   
   img {
-    width: 30em;
-    min-width: 1em;
+    width: 100%;
     align-items: center;
     justify-content: center;
     margin-bottom: 3em;
@@ -53,10 +52,12 @@ $green: rgba(0, 255, 162, .3);
   }
   
   img {
-    width: 16em;
     filter: brightness(70%);
     transition: all .8s ease-in;
+    width: 100%;
     
+    max-height: 14em;
+    padding: 1em;
     &:hover {
       transform: scale(1.03);
       filter: brightness(100%);

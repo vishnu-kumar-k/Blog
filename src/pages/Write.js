@@ -13,8 +13,9 @@ import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import "../stylesheet/Write.scss";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { jsonwebtoken } from "../Atom/Atom.js";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { jsonwebtoken, Load } from "../Atom/Atom.js";
+import Loading from "./Loading.js";
 export const Write = () => {
   const [tittle, setTittle] = useState("");
   const [category, setCategory] = useState("");
@@ -22,6 +23,7 @@ export const Write = () => {
   const [image, setImage] = useState("");
   const navigate = useNavigate();
   const jwt=useRecoilValue(jsonwebtoken);
+  const[loading,setLoading]=useRecoilState(Load);
   const Handle = async(e) => {
     e.preventDefault();
     var flag = true;
@@ -58,10 +60,10 @@ export const Write = () => {
       });
     }
     if (flag) {
+      setLoading(true)
       
 const currentDate = new Date();
 
-// Format the date as YYYY-MM-DD
 const dates = await currentDate.toISOString().slice(0, 10);
 
       axios
@@ -77,8 +79,8 @@ const dates = await currentDate.toISOString().slice(0, 10);
           },
           { withCredentials: true }
         )
-        .then((res) => {
-          console.log(res)
+        .then(async(res) => {
+          await setLoading(false);
           if (res.data.status) {
             toast.success(res.data.msg, {
               position: toast.POSITION.TOP_RIGHT,
@@ -103,8 +105,8 @@ const dates = await currentDate.toISOString().slice(0, 10);
     }
   };
 
-  return (
-    <Container>
+  return (<><ToastContainer />
+  {loading?(<Loading />):(<Container>
       <div className="write-container">
         <form>
           <Row>
@@ -157,7 +159,9 @@ const dates = await currentDate.toISOString().slice(0, 10);
           </Row>
         </form>
       </div>
-      <ToastContainer />
-    </Container>
+      
+    </Container>)}
+  </>
+    
   );
 };

@@ -18,11 +18,13 @@ import "./stylesheet/App.scss"
 import { useEffect } from "react";
 import { Auth } from "./Atom/Atom";
 import { Mypost } from "./pages/Mypost";
+import Loading from "./pages/Loading";
 
 var t=window.innerWidth;
 const Layout=()=>{
   return(<>
   <Navbars/>
+  
   <Outlet/>
   <Footer/>
   </>);

@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import "../stylesheet/Navbar.scss";
 import { useRecoilState } from "recoil";
-import { Auth, categoryPostState, Count, jsonwebtoken } from "../Atom/Atom";
+import { Auth, categoryPostState, Count, jsonwebtoken, Load } from "../Atom/Atom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
@@ -17,10 +17,13 @@ export const Navbars = () => {
  
   const [categoryPost, setCategoryPost] = useRecoilState(categoryPostState);
   const [jwt,setJwt]=useRecoilState(jsonwebtoken);
+  const[loading,setLoading]=useRecoilState(Load);
   useEffect(() => {
     if (!user.status && jwt!==undefined && jwt!==null) {
+      setLoading(true);
       axios.post("/verify",{jwt:jwt}, { withCredentials: true }).then(async (res) => {
         if (res.data.status) {
+          setLoading(false);
           await setUser({ name: res.data.name, status: true });
         }
         else{
@@ -84,8 +87,8 @@ export const Navbars = () => {
     navigate("/");
   }
 
-  return (
-    <Navbar bg="light" expand="lg">
+  return (<>{loading?(<></>):(
+    <Navbar bg="light" className=" container" expand="lg">
   <Container fluid>
     <Link className="head nav-link" onClick={handleHome}>
       Mindverse
@@ -145,7 +148,8 @@ export const Navbars = () => {
       <ToastContainer />
     </Navbar.Collapse>
   </Container>
-</Navbar>
+</Navbar>)}
+</>
 
   );
 };

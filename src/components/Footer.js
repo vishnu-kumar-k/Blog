@@ -4,7 +4,7 @@ import { Col, Container, Row, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
-import { Auth, jsonwebtoken } from "../Atom/Atom";
+import { Auth, jsonwebtoken, Load } from "../Atom/Atom";
 
 
 import "../stylesheet/Footer.scss";
@@ -13,6 +13,7 @@ export const Footer = () => {
   const[suggestions,setSuggestions]=useState("");
   const[jwt]=useRecoilState(jsonwebtoken)
   const navigate=useNavigate();
+  const[loading,setLoading]=useRecoilState(Load);
   const handle=(e)=>{
     if(!user.status)
     {
@@ -41,11 +42,20 @@ export const Footer = () => {
   }
   const handleSubmit=(e)=>{
     e.preventDefault();
+    if(suggestions.length<4){
+      toast.warning("write some suggestions", {
+        position: toast.POSITION.TOP_RIGHT,
+        closeOnClick: false,
+        pauseOnHover: true,
+      });
+    }else{
+      setLoading(true);
     axios.post("/suggestions",{
       suggestions:suggestions,
       jwt:jwt
     },{withCredentials:true}).then((res)=>
-    {
+    {setLoading(false);
+      setSuggestions("");
       if(res.data.status)
       {
         toast.success("Thank you for your kind suggestion", {
@@ -64,8 +74,10 @@ export const Footer = () => {
       }
     })
   }
+  }
 
-  return (
+  return (<>
+    {loading ? (<ToastContainer />):(
     <div className="footer">
     <Container>
       
@@ -81,7 +93,7 @@ export const Footer = () => {
           information. The opinions expressed on this website are those of the
           authors and do not necessarily reflect the views of Mindverse.
         </p>
-        <button type="button" class="btn btn-secondary" onClick={share}>Click here to share mindverse</button>
+        <button type="button" class="btn btn-warning" onClick={share}>Click here to share mindverse</button>
         
         <p>
           Please contact us if you have any questions or concerns about the
@@ -93,9 +105,10 @@ export const Footer = () => {
     <button className="btn btn-outline-primary" onClick={handleSubmit} >Submit</button>
   </div><br />
         <b className="d-flex justify-content-center">Copyright © 2023 Mindverse. All rights reserved</b>
-        <ToastContainer />
+        
         </Container>
-      </div>
+        <ToastContainer />
+      </div>)}</>
     
   );
 };

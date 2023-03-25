@@ -35,3 +35,8 @@ export const jsonwebtoken=atom({
   key:"jsonwebtoken",
   default:localStorage.getItem("jwt")
 })
+
+export const Load=atom({
+  key:"Load",
+  default:false
+})
