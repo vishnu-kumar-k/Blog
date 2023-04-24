@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { deletePost, post } from "../Atom/Atom";
 import "../stylesheet/Display.scss";
 import { Button, Modal } from 'react-bootstrap';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../axios/Axios";
 import { toast } from "react-toastify";
 const Display = ({ ind, img, id, tittle, desc, n, date, name, category,flag }) => {
@@ -13,6 +13,17 @@ const Display = ({ ind, img, id, tittle, desc, n, date, name, category,flag }) =
   const [p, setP] = useRecoilState(post);
   const [showConfirm, setShowConfirm] = useState(false);
   const[del,Setdel]=useRecoilState(deletePost);
+  const[like,setLike]=useState();
+useEffect(()=>{
+  axios.post("/like",{
+    postId:id
+  }).then(async(result)=>
+  {
+    console.log(result)
+    await setLike(result.data.like);
+  }).catch((err)=>console.log(err));
+},[])
+
   const handle = (e) => {
     e.preventDefault();
     setP(id);
@@ -78,6 +89,7 @@ const Display = ({ ind, img, id, tittle, desc, n, date, name, category,flag }) =
               <p>
                 posted on: <time>{d}</time>
               </p>
+              <p>{like} likes</p>
               <div class="d-flex justify-content-start" style={{gap:"5px"}}>
               <button onClick={handle} className="btn btn-outline-primary" >Readmore</button>{" "}
               {flag?(<button className="btn btn-outline-danger"  onClick={()=>setShowConfirm(true)} >Delete</button>):(<></>)}
@@ -97,6 +109,7 @@ const Display = ({ ind, img, id, tittle, desc, n, date, name, category,flag }) =
               <p>
                 posted on: <time>{d}</time>
               </p>
+              <p>{like} likes</p>
               <div class="d-flex justify-content-start" style={{gap:"5px"}}>
               <button onClick={handle} className="btn btn-outline-primary" >Readmore</button>{" "}
               {flag?(<button className="btn btn-outline-danger"  onClick={()=>setShowConfirm(true)} >Delete</button>):(<></>)}

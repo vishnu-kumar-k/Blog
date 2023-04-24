@@ -80,6 +80,7 @@ const dates = await currentDate.toISOString().slice(0, 10);
           { withCredentials: true }
         )
         .then(async(res) => {
+          console.log(res)
           await setLoading(false);
           if (res.data.status) {
             toast.success(res.data.msg, {
