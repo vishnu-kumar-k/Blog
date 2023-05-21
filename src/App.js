@@ -8,7 +8,7 @@ import { Register } from "./pages/Register";
 import  Single  from "./pages/Single";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
-import { Write } from "./pages/Write";
+import  Editor  from "./pages/Write";
 import {Navbars} from "./components/Navbar"
 import {Footer} from "./components/Footer";
 import { RecoilRoot, useRecoilState } from "recoil";
@@ -45,7 +45,7 @@ const router=createBrowserRouter([
       },
       {
         path:"/write",
-        element:<Write />
+        element:<Editor />
       },
       {
         path:"/mypost",

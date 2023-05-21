@@ -8,6 +8,8 @@ import {
   Row,
   ToastContainer,
 } from "react-bootstrap";
+import Dropzone from "react-dropzone"; // Import the Dropzone component
+
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
@@ -16,7 +18,8 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { jsonwebtoken, Load } from "../Atom/Atom.js";
 import Loading from "./Loading.js";
-export const Write = () => {
+
+const Write = () => {
   const [tittle, setTittle] = useState("");
   const [category, setCategory] = useState("");
   const [des, setDes] = useState("");
@@ -27,19 +30,9 @@ export const Write = () => {
   const jwt = useRecoilValue(jsonwebtoken);
   const [loading, setLoading] = useRecoilState(Load);
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    setImageName(e.target.files[0].name);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     var flag = true;
     if (tittle.length < 10) {
       flag = false;
@@ -65,35 +58,35 @@ export const Write = () => {
         pauseOnHover: true,
       });
     }
-  
+
     if (!flag) {
       return; // Stop further execution if validation fails
     }
-  
+
     if (image === null) {
       toast.warning("Please Choose Image");
       return; // Stop further execution if image is not selected
     }
-  
+
     const formData = new FormData();
     formData.append("image", image);
     formData.append("name", imageName);
-  
+
     try {
       const uploadResponse = await axios.post("/uploadimage", formData, {
         headers: {
           "Content-Type": "application/octet-stream",
         },
       });
-  
+
       if (uploadResponse.data.status) {
         setImageurl(uploadResponse.data.location);
-  
+
         setLoading(true);
-  
+
         const currentDate = new Date();
         const dates = currentDate.toISOString().slice(0, 10);
-  
+
         try {
           const addPostResponse = await axios.post(
             "/addposts",
@@ -107,18 +100,18 @@ export const Write = () => {
             },
             { withCredentials: true }
           );
-  
+
           await setLoading(false);
-  
+
           if (addPostResponse.data.status) {
             toast.success(addPostResponse.data.msg, {
               position: toast.POSITION.TOP_RIGHT,
               closeOnClick: false,
               pauseOnHover: true,
             });
-  
+
             setTimeout(() => {
-              //navigate("/mypost");
+              navigate("/mypost");
             }, 5000);
           } else {
             toast.info(addPostResponse.data.msg, {
@@ -137,7 +130,16 @@ export const Write = () => {
       console.log(error);
     }
   };
-  
+
+  const handleDrop = (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    setImageName(file.name);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <>
@@ -151,12 +153,14 @@ export const Write = () => {
               <Row>
                 <Col md={8}>
                   <div className="content">
+                    <h2>Title</h2>
                     <Form.Control
                       type="text"
                       placeholder="Title"
                       value={tittle}
                       onChange={(e) => setTittle(e.target.value)}
                     />
+                    <h2>Description</h2>
                     <div className="editorContainer">
                       <ReactQuill
                         theme="snow"
@@ -166,20 +170,12 @@ export const Write = () => {
                       />
                     </div>
                   </div>
+                  
                 </Col>
                 <Col md={4}>
                   <div className="menu">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                    />
-        
-
-                    
-
-                    <div className="item">
-                      <h1>Category</h1>
+                  <div className="item">
+                      <h2>Category</h2>
                       <Form.Select
                         aria-label="Default select example"
                         onChange={(e) => setCategory(e.target.value)}
@@ -198,12 +194,59 @@ export const Write = () => {
                         </option>
                       </Form.Select>
                     </div>
-                    <Button onClick={handleSubmit} className="outline-success">
-                      Publish
-                    </Button>
+                    <div className="item">
+                      <h2>Image</h2>
+                      {image ? (
+                        <>
+                          <img
+                            src={image}
+                            alt="Selected"
+                            className="selected-image"
+                          />
+
+                          <button
+                            className="btn btn-danger"
+                            style={{ marginTop: "1em" }}
+                            onClick={() => setImage(null)}
+                          >
+                            Remove Image
+                          </button>
+                        </>
+                      ) : (
+                        <Dropzone onDrop={handleDrop}>
+                          {({ getRootProps, getInputProps }) => (
+                            <div className="dropzone" {...getRootProps()}>
+                              <input
+                                {...getInputProps({ accept: "image/*" })}
+                              />
+                              <p>
+                                Drag and drop an image here, or click to select
+                              </p>
+                            </div>
+                          )}
+                        </Dropzone>
+                      )}
+                    </div>
+
+                    
                   </div>
                 </Col>
+                
               </Row>
+              <Row>
+                <Col md={4} xs={0}></Col>
+                <Col md={4} xs={0}>
+                <Button
+                    onClick={handleSubmit}
+                    style={{ marginTop: "1em" }}
+                    className="outline-success"
+                  >
+                    Publish
+                  </Button>
+                </Col>
+                <Col md={4} xs={0}></Col>
+              </Row>
+
             </form>
           </div>
         </Container>
@@ -211,3 +254,5 @@ export const Write = () => {
     </>
   );
 };
+
+export default Write;
