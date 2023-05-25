@@ -40,3 +40,7 @@ export const Load=atom({
   key:"Load",
   default:false
 })
+export const Redirect=atom({
+  key:"Redirect",
+  default:"/"
+})

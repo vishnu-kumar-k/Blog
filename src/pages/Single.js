@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import axios from "../axios/Axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Auth, jsonwebtoken, Load, post } from "../Atom/Atom";
+import { Auth, jsonwebtoken, Load, post, Redirect } from "../Atom/Atom";
 import "../stylesheet/Single.scss";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-const Single = () => {
+import { HeartFill } from 'react-bootstrap-icons';
+import { SimilarPost } from "./SimilarPost";
+export const Single = () => {
   const [posts, setPosts] = useState([]);
   const [id, setId] = useRecoilState(post);
   const [similar, setSimilar] = useState();
@@ -17,6 +19,7 @@ const Single = () => {
   const [like, setLike] = useState();
   const [liked, setLiked] = useState();
   const navigate=useNavigate();
+  const [redirect,setRedirect]=useRecoilState(Redirect)
   useEffect(() => {
     setLoading(true);
     axios
@@ -54,7 +57,6 @@ const Single = () => {
       )
       .then((res) => {
         setLiked(res.data.like);
-        console.log(liked)
       })
       .catch((err) => console.log(err));
   }, []);
@@ -78,9 +80,10 @@ const Single = () => {
       });
     }
     else {
-      toast.warning("please Login to unLike")
+      toast.warning("please Login to Continue")
       setTimeout(()=>
       {
+        setRedirect("/single");
       navigate("/login")
       },2000
       )
@@ -102,9 +105,10 @@ const Single = () => {
         }
       })
     } else {
-      toast.warning("please Login to Like")
+      toast.warning("please Login to Continue")
       setTimeout(()=>
       {
+        setRedirect("/single");
       navigate("/login")
       },2000
       )
@@ -138,14 +142,14 @@ const Single = () => {
                 </p>
                 {liked===0 ? (
                   <button onClick={handleLike} className="btn btn-outline-primary">
-                    {like} Likes
+                    <HeartFill />  {like} Likes
                   </button>
                 ) : (
                   <button
                     onClick={handleUnlike}
-                    className="btn btn-primary"
+                    className="btn btn-danger"
                   >
-                    {like} Likes
+                    <HeartFill />  {like} Likes
                   </button>
                 )}
                 <br />
@@ -159,49 +163,19 @@ const Single = () => {
                 {similar === undefined || similar.length === 0 ? (
                   <>No posts</>
                 ) : (
-                  similar.map((post, index) => (
-                    <div className="similar-post-container">
-                      <img
-                        src={post.img}
-                        alt=""
-                        className="rounded mx-auto d-block img-fliud"
-                      />
-                      <p className="rounded mx-auto d-block">
-                        {" "}
-                        <span>{post.tittle}</span>
-                      </p>
-                      <p className="rounded mx-auto d-block">
-                        Category: <b>{post.category}</b>
-                      </p>
-                      <p className="rounded mx-auto d-block">
-                        Posted on:{" "}
-                        <b>
-                          {new Date(post.date).toLocaleDateString("en-US", {
-                            month: "long",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </b>
-                      </p>
-
-                      <button
-                        className="rounded mx-auto d-block btn btn-outline-primary"
-                        onClick={() => {
-                          setId(post.id);
-                        }}
-                      >
-                        Readmore....
-                      </button>
-                    </div>
+                  similar.map((posts, index) => (
+                    <SimilarPost pt={posts} />
                   ))
                 )}
+                
               </div>
             </Col>
           </Row>
+          
         </Container>
       )}
     </>
   );
 };
 
-export default Single;
+

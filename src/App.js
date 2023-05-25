@@ -1,11 +1,10 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
   Outlet,
 } from "react-router-dom";
 import { Register } from "./pages/Register";
-import  Single  from "./pages/Single";
+import  {Single}  from "./pages/Single";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import  Editor  from "./pages/Write";
@@ -19,8 +18,8 @@ import { useEffect } from "react";
 import { Auth } from "./Atom/Atom";
 import { Mypost } from "./pages/Mypost";
 import Loading from "./pages/Loading";
+import { ResetPassword } from "./pages/ResetPassword";
 
-var t=window.innerWidth;
 const Layout=()=>{
   return(<>
   <Navbars/>
@@ -52,6 +51,10 @@ const router=createBrowserRouter([
         element:<Mypost />
       }
     ]
+  },
+  {
+    path:"/resetpassword",
+    element:<ResetPassword />
   },
   {
     path:"/Login",

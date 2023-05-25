@@ -14,7 +14,7 @@
         gap: 1em
     }
 
-    background-color: rgba(54, 139, 152, 0.9);
+    background-color:  #4cb69f;
     padding: 1em;
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
@@ -23,4 +23,7 @@
     span {
         font-size: 1.2em;
     }
+}
+.password-strength{
+    color: red;
 }
