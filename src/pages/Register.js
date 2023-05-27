@@ -176,7 +176,7 @@ export const Register = () => {
                     </div>
 
                     {password && !checkPasswordStrength() && (
-                      <div className="password-strength">Password is Weak</div>
+                      <div className="password-strength">Password is Weak.Must Contain UpperCase,LowerCase,Special Characters,Numbers and length more than 7</div>
                     )}
                     <button
                       className="btn btn-primary"

@@ -117,10 +117,10 @@ export const Login = () => {
                   >
                     submit
                   </button>
-                  <span>
-                    Forget Password{" "}
+                  <span >
+                    Forget Password?{" "}
                     <Link to="/resetpassword" style={{ color: "red" }}>
-                      Reset Password
+                      Reset
                     </Link>
                   </span>
                   <span>

@@ -56,7 +56,7 @@ export const ResetPassword = () => {
           localStorage.setItem("jwt", result.data.jwt);
           setUser({ status: true, name: result.data.name});
 
-          toast.success(`Signed in as ${user.name}`, {
+          toast.success(`Signed in as ${result.data.name}`, {
             position: toast.POSITION.TOP_RIGHT,
             closeOnClick: false,
             pauseOnHover: true,
@@ -96,7 +96,7 @@ export const ResetPassword = () => {
         console.log(result.data);
         setOtp(true);
       } else {
-        toast.info("Account already exists. Try login");
+        toast.info("Account Not Found Try Register");
       }
     } catch (err) {
       console.log(err);
@@ -125,13 +125,23 @@ export const ResetPassword = () => {
                 <form>
                   <input
                     type="email"
+                    className="form-control"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter the Email"
+                    disabled={otp}
+                  />
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={enteredOtp}
+                    onChange={(e) => setEnteredOtp(e.target.value)}
+                    placeholder="Enter the OTP"
                   />
                   <input
                     type={showpassword ? "text" : "password"}
                     value={password}
+                    className="form-control"
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter the new Password"
                   />
@@ -151,14 +161,11 @@ export const ResetPassword = () => {
                       Show Password
                     </label>
                   </div>
-                  <input
-                    type="number"
-                    value={enteredOtp}
-                    onChange={(e) => setEnteredOtp(e.target.value)}
-                    placeholder="Enter the OTP"
-                  />
+                  {password && !checkPasswordStrength() && (
+                      <div className="password-strength">Password is Weak.Must Contain UpperCase,LowerCase,Special Characters,Numbers and length more than 7</div>
+                    )}
                   {!otp ? (
-                    <button disabled={!email} onClick={handleGetOtp}>
+                    <button disabled={!email} onClick={handleGetOtp} className="btn btn-danger">
                       Get OTP
                     </button>
                   ) : (
@@ -171,6 +178,7 @@ export const ResetPassword = () => {
                           !checkPasswordStrength(password)
                         }
                         onClick={handleSubmit}
+                        className="btn btn-danger"
                       >
                         Reset
                       </button>

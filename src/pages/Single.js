@@ -132,29 +132,32 @@ export const Single = () => {
             <Col md={8} sm={12} xs={12}>
               <div className="Single">
                 <img src={posts.img} className="rounded mx-auto d-block" />
-
-                <h4>{posts.tittle}</h4>
+                <div className="group">
+                <span>{posts.category}</span>
+                <span>{d}</span>
+                </div>
+                <h>{posts.tittle}</h>
+                
                 <p>
-                  Category: <span>{posts.category}</span>
-                </p>
-                <p>
-                  Posted by: <span>{posts.username}</span>
+                  <span className="user-name">{posts.username}</span>
+                  
                 </p>
                 {liked===0 ? (
-                  <button onClick={handleLike} className="btn btn-outline-primary">
+                  <button onClick={handleLike} className="btn btn-outline-primary" style={{marginLeft:"1em"}}>
                     <HeartFill />  {like} Likes
                   </button>
                 ) : (
                   <button
                     onClick={handleUnlike}
                     className="btn btn-danger"
+                    style={{marginLeft:"1em"}}
                   >
                     <HeartFill />  {like} Likes
                   </button>
                 )}
                 <br />
-                <strong>{d}</strong>
-                <div dangerouslySetInnerHTML={{ __html: posts.des }}></div>
+                
+                <div dangerouslySetInnerHTML={{ __html: posts.des }} className="description"></div>
               </div>
             </Col>
             <Col md={4} sm={12} xs={12}>

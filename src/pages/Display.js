@@ -79,20 +79,18 @@ const Display = ({ ind, img, id, tittle, n, date, name, category, flag }) => {
             </Col>
             <Col md={1} sm={0} xs={0}></Col>
             <Col md={6} xs={12} sm={12}>
-              <h1>{tittle}</h1>
+              <h className="tittle">{tittle}</h>
+              <div className="group">
+                <span>{category}</span>
+                <span>{d}</span>
+              </div>
               <p>
-                category: <strong>{category}</strong>
+                <span className="user-name"> {name}</span>
               </p>
-              <p>
-                Posted by: <span>{name}</span>
-              </p>
-              <p>
-                posted on: <time>{d}</time>
-              </p>
-              <p>{like} likes</p>
+              <p className="like">{like} likes</p>
               <div class="d-flex justify-content-start" style={{ gap: "5px" }}>
                 <button onClick={handle} className="btn btn-outline-primary">
-                  Readmore
+                  Readmore...
                 </button>{" "}
                 {flag ? (
                   <button
@@ -110,20 +108,20 @@ const Display = ({ ind, img, id, tittle, n, date, name, category, flag }) => {
         ) : (
           <>
             <Col md={6} xs={12} sm={12}>
-              <h1>{tittle}</h1>
+              <h className="tittle">{tittle}</h>
+
+              <div className="group">
+                <span>{category}</span>
+                <span>{d}</span>
+              </div>
               <p>
-                category: <strong>{category}</strong>
+                <span className="user-name"> {name}</span>
               </p>
-              <p>
-                Posted by:<span> {name}</span>
-              </p>
-              <p>
-                posted on: <time>{d}</time>
-              </p>
-              <p>{like} likes</p>
+
+              <p className="like">{like} likes</p>
               <div class="d-flex justify-content-start" style={{ gap: "5px" }}>
                 <button onClick={handle} className="btn btn-outline-primary">
-                  Readmore
+                  Readmore...
                 </button>{" "}
                 {flag ? (
                   <button

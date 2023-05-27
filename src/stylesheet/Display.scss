@@ -5,23 +5,51 @@ $blue: rgb(0, 85, 255);
 $aquamarine: aquamarine;
 $light-gray: rgb(234, 234, 234);
 $green: rgba(0, 255, 162, .3);
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700&family=Playfair:wght@500;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Signika+Negative&display=swap');
 .Display {
 
     margin-top: 1em;
    
     padding: 2em;
     
-    time{
-        color: $crimson;
+    .group {
+        display: flex;
+        flex-direction: row;
+    
+        span {
+          color: rgb(122, 122, 122);
+          font-weight: 100;
+          margin-right: 1em;
+          text-transform: capitalize;
+        }
+      }
+      .like
+      {
+        font-family: 'Archivo', sans-serif;
+      }
+      .tittle
+      {
+        font-family: 'Signika Negative', sans-serif;
+        font-size: 2em;
+      }
+      .user-name {
+        font-family: 'Nunito', sans-serif;
+        font-family: 'Playfair', serif;
+        font-size: 1.5em;
         font-weight: 600;
-        font-style: italic;
-    }
-    span{
-        color: $red;
-        font-weight: 700;
-        font-style: italic;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    
+      }
+    
+      .description {
+        font-family: 'Lora', serif;
+        padding: 1em;
+        font-size: 21px;
+      }
+    
     strong{
         color: $blue;
         font-weight: 500;
