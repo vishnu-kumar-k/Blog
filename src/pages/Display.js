@@ -129,6 +129,7 @@ const Display = ({ ind, img, id, tittle, n, date, name, category, flag,edited })
               <div className="group">
                 <span>{category}</span>
                 <span>{d}</span>
+                <span>{edited?"Edited":null}</span>
               </div>
               <p>
                 <span className="user-name"> {name}</span>
@@ -139,13 +140,15 @@ const Display = ({ ind, img, id, tittle, n, date, name, category, flag,edited })
                 <button onClick={handle} className="btn btn-outline-primary">
                   Readmore...
                 </button>{" "}
-                {flag ? (
+                {flag ? (<>
                   <button
                     className="btn btn-outline-danger"
                     onClick={() => setShowConfirm(true)}
                   >
                     <Trash3Fill />
                   </button>
+                  <button className="btn btn-outline-danger" onClick={(e)=>handleEdit(e)}>Edit</button>
+                  </>
                 ) : (
                   <></>
                 )}
