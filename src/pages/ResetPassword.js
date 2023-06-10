@@ -93,7 +93,6 @@ export const ResetPassword = () => {
       if (result.data.status) {
         toast.success(result.data.msg);
         setOtpcode(result.data.otp);
-        console.log(result.data);
         setOtp(true);
       } else {
         toast.info("Account Not Found Try Register");

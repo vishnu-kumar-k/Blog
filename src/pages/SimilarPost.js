@@ -5,10 +5,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "../axios/Axios";
 import { HeartFill } from "react-bootstrap-icons";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const SimilarPost = ({ pt }) => {
-    const [id, setId] = useRecoilState(post);
     const [like, setLike] = useState();
+    const location=useLocation();
+    const navigate=useNavigate()
   useEffect(() => {
     axios
       .post("/like", {
@@ -52,7 +54,13 @@ export const SimilarPost = ({ pt }) => {
       <button
         className="rounded mx-auto d-block btn btn-outline-primary"
         onClick={() => {
-          setId(pt.id);
+          const queryParams = new URLSearchParams(location.search);
+    queryParams.set('post', pt.id);
+    navigate({
+      pathname: '/single',
+      search: '?' + queryParams.toString()
+    });
+    
         }}
       >
         Readmore....

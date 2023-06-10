@@ -44,3 +44,8 @@ export const Redirect=atom({
   key:"Redirect",
   default:"/"
 })
+
+export const EditPost=atom({
+  key:"EditPost",
+  default:-1
+})

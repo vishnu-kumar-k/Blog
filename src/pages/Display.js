@@ -1,8 +1,8 @@
 import { Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { deletePost, post } from "../Atom/Atom";
+import { deletePost, post,EditPost } from "../Atom/Atom";
 import "../stylesheet/Display.scss";
 import { Button, Modal } from "react-bootstrap";
 import { useEffect, useState } from "react";
@@ -10,12 +10,14 @@ import axios from "../axios/Axios";
 import { toast } from "react-toastify";
 import { Trash3Fill } from "react-bootstrap-icons";
 
-const Display = ({ ind, img, id, tittle, n, date, name, category, flag }) => {
+const Display = ({ ind, img, id, tittle, n, date, name, category, flag,edited }) => {
   const navigate = useNavigate();
   const [p, setP] = useRecoilState(post);
   const [showConfirm, setShowConfirm] = useState(false);
   const [del, Setdel] = useRecoilState(deletePost);
   const [like, setLike] = useState();
+  const location = useLocation();
+  const [editpost,setEditPost]=useRecoilState(EditPost)
   useEffect(() => {
     axios
       .post("/like", {
@@ -29,8 +31,12 @@ const Display = ({ ind, img, id, tittle, n, date, name, category, flag }) => {
 
   const handle = (e) => {
     e.preventDefault();
-    setP(id);
-    navigate("/single");
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.set("post", id);
+    navigate({
+      pathname: "/single",
+      search: "?" + queryParams.toString(),
+    });
   };
 
   const handleConfirmDelete = () => {
@@ -55,7 +61,13 @@ const Display = ({ ind, img, id, tittle, n, date, name, category, flag }) => {
       .catch((err) => console.log(err));
     setShowConfirm(false);
   };
-
+  const handleEdit=(e)=>
+  {
+    e.preventDefault();
+    setEditPost(id);
+    navigate("/edit")
+    
+  }
   const dates = new Date(date);
   const d = dates.toLocaleDateString("en-US", {
     month: "long",
@@ -83,6 +95,7 @@ const Display = ({ ind, img, id, tittle, n, date, name, category, flag }) => {
               <div className="group">
                 <span>{category}</span>
                 <span>{d}</span>
+                <span>{edited?"Edited":null}</span>
               </div>
               <p>
                 <span className="user-name"> {name}</span>
@@ -93,12 +106,15 @@ const Display = ({ ind, img, id, tittle, n, date, name, category, flag }) => {
                   Readmore...
                 </button>{" "}
                 {flag ? (
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={() => setShowConfirm(true)}
-                  >
-                    <Trash3Fill />
-                  </button>
+                  <>
+                    <button
+                      className="btn btn-outline-danger"
+                      onClick={() => setShowConfirm(true)}
+                    >
+                      <Trash3Fill />
+                    </button>
+                    <button className="btn btn-outline-danger" onClick={(e)=>handleEdit(e)}>Edit</button>
+                  </>
                 ) : (
                   <></>
                 )}

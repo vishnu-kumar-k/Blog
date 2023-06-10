@@ -57,7 +57,6 @@ export const Navbars = () => {
       navigate("/login");
     }
   };
-  console.log(user);
   const myPost = (e) => {
     e.preventDefault();
     if (user.status) {
@@ -101,8 +100,8 @@ export const Navbars = () => {
       {loading ? (
         <></>
       ) : (
-        <Navbar bg="light" className=" container" expand="lg">
-          <Container fluid>
+        <Navbar expand="lg">
+          <Container>
             <Link className="head nav-link" onClick={handleHome}>
               Mindverse
             </Link>

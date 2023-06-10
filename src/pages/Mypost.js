@@ -58,9 +58,9 @@ export const Mypost = () => {
             ind={index}
             name={post.username}
             img={post.img}
+            edited={post.edited}
             id={post.id}
             date={post.date}
-            
             tittle={post.tittle}
             desc={post.n}
             n={post.des}

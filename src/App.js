@@ -11,14 +11,13 @@ import  Editor  from "./pages/Write";
 import {Navbars} from "./components/Navbar"
 import {Footer} from "./components/Footer";
 import { RecoilRoot, useRecoilState } from "recoil";
-import {Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./stylesheet/App.scss"
-import { useEffect } from "react";
-import { Auth } from "./Atom/Atom";
 import { Mypost } from "./pages/Mypost";
-import Loading from "./pages/Loading";
 import { ResetPassword } from "./pages/ResetPassword";
+import  Editpost  from "./pages/Editpost";
+import { useEffect } from "react";
+
 
 const Layout=()=>{
   return(<>
@@ -29,6 +28,8 @@ const Layout=()=>{
   </>);
 }
 
+
+
 const router=createBrowserRouter([
   {
     path:"/",
@@ -37,6 +38,10 @@ const router=createBrowserRouter([
       {
         path:"",
         element:<Home />
+      },
+      {
+        path:"/edit",
+        element:<Editpost />
       },
       {
         path:"/single",
@@ -67,10 +72,13 @@ const router=createBrowserRouter([
 ])
 
 function App() {
+  
+   var containerClass=window.innerWidth<780?"container-fluid":"container"
+  
   return (
     <div className="app">
       
-      <div className="container">
+      <div className={containerClass}>
         <RecoilRoot>
       <RouterProvider router={router}/>
       </RecoilRoot>

@@ -34,10 +34,10 @@ export const Footer = () => {
 
   const share = () => {
     navigator.share({
-      title: 'My Website',
+      title: 'Mindverse',
       url: window.location.href
     })
-      .then(() => console.log('Successful share'))
+      .then(() => {})
       .catch((error) => console.log('Error sharing:', error));
   }
   const handleSubmit=(e)=>{

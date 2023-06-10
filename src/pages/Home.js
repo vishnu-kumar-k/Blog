@@ -13,7 +13,7 @@ import axios from "../axios/Axios";
 import "../stylesheet/Home.scss";
 import Display from "./Display";
 import Loading from "./Loading";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 export const Home = () => {
   const [pt, setPost] = useRecoilState(Posts);
   const [status, setStatus] = useState(false);
@@ -24,7 +24,8 @@ export const Home = () => {
   const [loading, setLoading] = useRecoilState(Load);
   const [carouselPosts, setCarouselPosts] = useState([]);
   const [p, setP] = useRecoilState(post);
-  const navigate=useNavigate()
+  const navigate=useNavigate();
+  const location=useLocation();
   useEffect(() => {
     axios
       .get("/carousel")
@@ -79,8 +80,13 @@ function convertDate(dd)
 }
 const handle = (e,id) => {
   e.preventDefault();
-  setP(id);
-  navigate("/single");
+  const queryParams = new URLSearchParams(location.search);
+    queryParams.set('post', id);
+    navigate({
+      pathname: '/single',
+      search: '?' + queryParams.toString()
+    });
+    
 };
   return (
     <Container>
@@ -119,6 +125,7 @@ const handle = (e,id) => {
                 img={post.img}
                 id={post.id}
                 date={post.date}
+                edited={post.edited}
                 tittle={post.tittle}
                 desc={post.n}
                 n={post.des}

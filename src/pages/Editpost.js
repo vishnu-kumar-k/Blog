@@ -16,11 +16,11 @@ import { toast } from "react-toastify";
 import "../stylesheet/Write.scss";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { jsonwebtoken, Load } from "../Atom/Atom.js";
+import { EditPost, jsonwebtoken, Load } from "../Atom/Atom.js";
 import Loading from "./Loading.js";
 import { useEffect } from "react";
 
-const Write = () => {
+const Editpost = () => {
   const [tittle, setTittle] = useState("");
   const [category, setCategory] = useState("");
   const [des, setDes] = useState("");
@@ -30,6 +30,8 @@ const Write = () => {
   const navigate = useNavigate();
   const jwt = useRecoilValue(jsonwebtoken);
   const [loading, setLoading] = useRecoilState(Load);
+  const [editpost, setEditPost] = useRecoilState(EditPost);
+  const [temp, setTemp] = useState();
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (tittle || category || des || image) {
@@ -44,6 +46,27 @@ const Write = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [tittle, category, des, image]);
+
+  useEffect(() => {
+    if (editpost === -1) {
+      navigate("/");
+    }
+    setLoading(true);
+    axios
+      .post(`/posts?id=${editpost}`, { jwt: jwt }, { withCredentials: true })
+      .then(async (res) => {
+        setLoading(false);
+        await setTemp(res.data.result);
+        setTittle(res.data.result.tittle);
+        setDes(res.data.result.des);
+        setCategory(res.data.result.category);
+        setImageurl(res.data.result.img);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return;
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,7 +101,7 @@ const Write = () => {
       return; // Stop further execution if validation fails
     }
 
-    if (image === null) {
+    if (image === null && imageurl === null) {
       toast.warning("Please Choose Image");
       return; // Stop further execution if image is not selected
     }
@@ -86,63 +109,89 @@ const Write = () => {
     const formData = new FormData();
     formData.append("image", image);
     formData.append("name", imageName);
-
-    try {
-      const uploadResponse = await axios.post("/uploadimage", formData, {
-        headers: {
-          "Content-Type": "application/octet-stream",
-        },
-      });
-
-      if (uploadResponse.data.status) {
-        setImageurl(uploadResponse.data.location);
-
+    if (imageurl === null) {
+      try {
         setLoading(true);
+        const uploadResponse = await axios.post("/uploadimage", formData, {
+          headers: {
+            "Content-Type": "application/octet-stream",
+          },
+        });
 
-        const currentDate = new Date();
-        const dates = currentDate.toISOString().slice(0, 10);
+        if (uploadResponse.data.status) {
+          setImageurl(uploadResponse.data.location);
 
-        try {
-          const addPostResponse = await axios.post(
-            "/addposts",
-            {
+          setLoading(true);
+
+          try {
+            const addPostResponse = await axios.post("/edit", {
               tittle: tittle,
               des: des,
-              date: dates,
+              id: editpost,
+
               img: uploadResponse.data.location,
               category: category,
-              jwt: jwt,
-            },
-            { withCredentials: true }
-          );
-
-          await setLoading(false);
-
-          if (addPostResponse.data.status) {
-            toast.success(addPostResponse.data.msg, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeOnClick: false,
-              pauseOnHover: true,
             });
 
-            setTimeout(() => {
-              navigate("/mypost");
-            }, 5000);
-          } else {
-            toast.info(addPostResponse.data.msg, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeOnClick: false,
-              pauseOnHover: true,
-            });
+            await setLoading(false);
+
+            if (addPostResponse.data.status) {
+              toast.success(addPostResponse.data.msg, {
+                position: toast.POSITION.TOP_RIGHT,
+                closeOnClick: false,
+                pauseOnHover: true,
+              });
+
+              setTimeout(() => {
+                navigate("/mypost");
+              }, 5000);
+            } else {
+              toast.info(addPostResponse.data.msg, {
+                position: toast.POSITION.TOP_RIGHT,
+                closeOnClick: false,
+                pauseOnHover: true,
+              });
+            }
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
+        } else {
+          toast.error("Try After Sometime");
         }
-      } else {
-        toast.error("Try After Sometime");
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      try {
+        const addPostResponse = await axios.post("/edit", {
+          tittle: tittle,
+          des: des,
+          id: editpost,
+          img: null,
+          category: category,
+        });
+        await setLoading(false);
+
+        if (addPostResponse.data.status) {
+          toast.success("Post has been updated", {
+            position: toast.POSITION.TOP_RIGHT,
+            closeOnClick: false,
+            pauseOnHover: true,
+          });
+
+          setTimeout(() => {
+            navigate("/mypost");
+          }, 5000);
+        } else {
+          toast.info("Can't process at this moment", {
+            position: toast.POSITION.TOP_RIGHT,
+            closeOnClick: false,
+            pauseOnHover: true,
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -185,17 +234,15 @@ const Write = () => {
                       />
                     </div>
                   </div>
-                  
                 </Col>
                 <Col md={4}>
                   <div className="menu">
-                  <div className="item">
+                    <div className="item">
                       <h2>Category</h2>
                       <Form.Select
                         aria-label="Default select example"
                         onChange={(e) => setCategory(e.target.value)}
                       >
-                        <option>Open this select menu</option>
                         <option value="Lifestyle">Lifestyle</option>
                         <option value="Business and finance">
                           Business and finance
@@ -211,10 +258,10 @@ const Write = () => {
                     </div>
                     <div className="item">
                       <h2>Image</h2>
-                      {image ? (
+                      {image || imageurl ? (
                         <>
                           <img
-                            src={image}
+                            src={image || imageurl}
                             alt="Selected"
                             className="selected-image"
                           />
@@ -222,7 +269,10 @@ const Write = () => {
                           <button
                             className="btn btn-danger"
                             style={{ marginTop: "1em" }}
-                            onClick={() => setImage(null)}
+                            onClick={() => {
+                              setImage(null);
+                              setImageurl(null);
+                            }}
                           >
                             Remove Image
                           </button>
@@ -236,32 +286,29 @@ const Write = () => {
                               />
                               <p>
                                 Drag and drop an image here, or click to select
+                                
                               </p>
                             </div>
                           )}
                         </Dropzone>
                       )}
                     </div>
-
-                    
                   </div>
                 </Col>
-                
               </Row>
               <Row>
                 <Col md={4} xs={0}></Col>
                 <Col md={4} xs={0}>
-                <Button
+                  <Button
                     onClick={handleSubmit}
                     style={{ marginTop: "1em" }}
                     className="outline-success"
                   >
-                    Publish
+                    Update
                   </Button>
                 </Col>
                 <Col md={4} xs={0}></Col>
               </Row>
-
             </form>
           </div>
         </Container>
@@ -270,4 +317,4 @@ const Write = () => {
   );
 };
 
-export default Write;
+export default Editpost;
